@@ -26,6 +26,7 @@
    מעלה המשלוחים — CYBER HIGHWAY v5 (מותג אדום, תקציב ביצועים קשיח)
    שחור #000 + אדום OLED (#e31e24 / זוהר #ff2d35). לבן שקוף לקווים,
    ענבר לפנסי רכבים מתקרבים בלבד. רמזור וכפתור וואטסאפ — צבעים אמיתיים.
+   השלט העילי — ירוק שלטי דרכים ישראלי (#0b6e3a): חריג מותר יחיד לפלטה.
    תקציב: אפס טשטוש-רקע | <=10 box-shadow (שכבה אחת) |
    <=25 אנימציות | 5 רכבים | קרקע אחת 3000x7000, 3 שכבות רקע.
    זהירות WKWebView: אין filter / overflow / clip בתוך עץ ה-3D.
@@ -270,52 +271,73 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 .fog{position:fixed;left:0;right:0;top:calc(34vh - 9vh);height:19vh;z-index:20;pointer-events:none;
   background:radial-gradient(58% 100% at 50% 55%,rgba(227,30,36,.22),rgba(227,30,36,.07) 52%,transparent 80%);}
 
-/* ---------- השלט העילי (במה נפרדת — תמיד מעל הכרטיס, סטטי) ---------- */
+/* ---------- השלט העילי (במה נפרדת — תמיד מעל הכרטיס) ----------
+   סגנון שלט מחלף ישראלי: ירוק שלטים + מסגרת לבנה, קורת סבכה מתכתית,
+   תגית מרחק צהובה. בלי ניאון — text-shadow עדין אחד לעומק בלבד. */
 .signstage{position:fixed;top:0;left:0;right:0;bottom:0;z-index:110;pointer-events:none;direction:ltr;
   perspective:900px;perspective-origin:50% 34%;}
 .sign{position:absolute;left:0;top:0;transform:translate3d(0,-352px,-260px);transform-style:preserve-3d;}
-.sign .met{background:linear-gradient(180deg,#1c1c1c,#090909);border:1px solid rgba(255,45,53,.3);}
+.sign .met{background:linear-gradient(180deg,#2b3036,#121417);border:1px solid rgba(255,255,255,.16);}
+/* קורת סבכה (truss) 470x30x34 */
 .scanopy{position:absolute;left:0;top:0;transform:translateY(6px);transform-style:preserve-3d;}
-.cnf,.cnb{width:470px;height:12px;margin:-6px 0 0 -235px;}
+.cnf,.cnb{width:470px;height:30px;margin:-15px 0 0 -235px;}
 .cnf{transform:translateZ(17px)}
 .cnb{transform:rotateY(180deg) translateZ(17px)}
 .cnt,.cnu{width:470px;height:34px;margin:-17px 0 0 -235px;}
-.cnt{transform:rotateX(90deg) translateZ(6px)}
-.cnu{transform:rotateX(-90deg) translateZ(6px)}
+.cnt{transform:rotateX(90deg) translateZ(15px)}
+.cnu{transform:rotateX(-90deg) translateZ(15px)}
+/* פאות הסבכה: חגורות עליונה/תחתונה + אלכסונים מצטלבים */
+.sign .cnf,.sign .cnb{background-color:#131518;
+  background-image:
+    linear-gradient(180deg,#454b52 0 3px,transparent 3px 27px,#454b52 27px 30px),
+    repeating-linear-gradient(64deg,transparent 0 15px,#383e45 15px 19px,transparent 19px 34px),
+    repeating-linear-gradient(-64deg,transparent 0 15px,#2c3138 15px 19px,transparent 19px 34px);
+  border:1px solid rgba(255,255,255,.18);}
 .srod{position:absolute;left:0;top:0;transform-style:preserve-3d;}
-.srod b{position:absolute;left:0;top:0;display:block;width:8px;height:32px;margin:0 0 0 -4px;
-  background:linear-gradient(180deg,#242424,#0c0c0c);border:1px solid rgba(255,45,53,.28);}
+.srod b{position:absolute;left:0;top:0;display:block;width:8px;height:23px;margin:0 0 0 -4px;
+  background:linear-gradient(180deg,#31363c,#14161a);border:1px solid rgba(255,255,255,.14);}
 .srod b.q2{transform:rotateY(90deg)}
-.sr1{transform:translate3d(-170px,12px,0)}
-.sr2{transform:translate3d(170px,12px,0)}
-/* לוח 440x110x18 */
-.sboard{position:absolute;left:0;top:0;transform:translateY(99px);transform-style:preserve-3d;}
+.sr1{transform:translate3d(-170px,21px,0)}
+.sr2{transform:translate3d(170px,21px,0)}
+/* לוח 440x110x18, נדנוד עדין (אנימציה אחת, לא מקוננת) */
+.sboard{position:absolute;left:0;top:0;transform:translateY(99px);transform-style:preserve-3d;
+  animation:swy 6s ease-in-out infinite alternate;}
+@keyframes swy{from{transform:translateY(99px) rotateX(1.2deg)}to{transform:translateY(99px) rotateX(-1.2deg)}}
 .sgf,.sgb{width:440px;height:110px;margin:-55px 0 0 -220px;border-radius:10px;}
 .sgf{transform:translateZ(9px);display:flex;flex-direction:column;align-items:center;justify-content:center;
-  direction:rtl;background:linear-gradient(180deg,rgba(12,12,12,.96),rgba(6,6,6,.96));
-  border:2px solid rgba(255,45,53,.9);}
-.sgb{transform:rotateY(180deg) translateZ(9px);background:#0a0a0a;border:1px solid rgba(255,45,53,.3);}
-.sgl,.sgr{width:18px;height:110px;margin:-55px 0 0 -9px;background:#0d0d0d;border:1px solid rgba(255,45,53,.4);}
+  direction:rtl;background:linear-gradient(180deg,#0b6e3a,#085229);
+  border:1px solid rgba(255,255,255,.3);}
+/* מסגרת לבנה פנימית — כמו בשלטי דרכים */
+.sgf::before{content:'';position:absolute;left:7px;top:7px;right:7px;bottom:7px;
+  border:3px solid #fff;border-radius:8px;pointer-events:none;}
+.sgb{transform:rotateY(180deg) translateZ(9px);background:#15171a;border:1px solid rgba(255,255,255,.15);}
+.sgl,.sgr{width:18px;height:110px;margin:-55px 0 0 -9px;background:#1a1d20;border:1px solid rgba(255,255,255,.15);}
 .sgl{transform:rotateY(-90deg) translateZ(220px)}
 .sgr{transform:rotateY(90deg) translateZ(220px)}
-.sgt{width:440px;height:18px;margin:-9px 0 0 -220px;background:#0a0a0a;border:1px solid rgba(255,45,53,.3);
+.sgt{width:440px;height:18px;margin:-9px 0 0 -220px;background:#15171a;border:1px solid rgba(255,255,255,.15);
   transform:rotateX(90deg) translateZ(55px);}
-/* פאה תחתית זוהרת — תאורת השלט */
-.sgu{width:440px;height:18px;margin:-9px 0 0 -220px;
-  background:linear-gradient(90deg,rgba(255,45,53,.25),#ff8087 18% 82%,rgba(255,45,53,.25));
-  box-shadow:0 0 26px 8px rgba(255,45,53,.55);
+/* פאה תחתית מתכתית עם שני גופי תאורה קטנים (בלי זוהר, בלי box-shadow) */
+.sgu{width:440px;height:18px;margin:-9px 0 0 -220px;background-color:#1a1d21;
+  background-image:
+    radial-gradient(9px 6px at 120px 9px,#ffe9b8 0 40%,#4a4436 70%,transparent 72%),
+    radial-gradient(9px 6px at 320px 9px,#ffe9b8 0 40%,#4a4436 70%,transparent 72%);
+  border:1px solid rgba(255,255,255,.14);
   transform:rotateX(-90deg) translateZ(55px);}
 .srow1{display:flex;align-items:center;gap:12px;font-weight:900;color:#fff;
-  font-size:clamp(26px,7vw,40px);line-height:1.25;text-shadow:0 0 12px rgba(255,45,53,.8);}
-.srow1 .arw{color:var(--rg);transform:translateY(-1px);}
-.srow2{font-weight:800;color:var(--rg);font-size:clamp(16px,4.2vw,24px);line-height:1.3;
-  letter-spacing:1px;text-shadow:0 0 10px rgba(255,45,53,.7);}
+  font-size:clamp(26px,7vw,40px);line-height:1.25;text-shadow:0 2px 3px rgba(0,0,0,.45);}
+.srow1 .arw{color:#fff;transform:translateY(-1px);}
+.srow2{display:flex;align-items:center;gap:8px;margin-top:3px;font-weight:800;line-height:1.3;}
+/* תגית מרחק צהובה כמו בשלטים ישראליים */
+.srow2 .kmv{background:#f7c600;color:#111;font-weight:900;font-size:clamp(15px,4vw,22px);
+  padding:0 10px;border-radius:6px;line-height:1.45;}
+.srow2 .kmu{color:#fff;font-weight:800;font-size:clamp(13px,3.4vw,18px);
+  text-shadow:0 1px 2px rgba(0,0,0,.5);}
 
 /* ---------- עמעום רדיאלי עדין מאחורי הכרטיס ---------- */
 .dim{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;pointer-events:none;
   background:radial-gradient(58% 62% at 50% 54%,rgba(0,0,0,.5),rgba(0,0,0,.2) 56%,transparent 78%);}
 
-/* ============ הכרטיס — לוח אטום, בלי טשטוש ============ */
+/* ============ הכרטיס — שקוף חלקית (רואים את הסצנה), בלי טשטוש ============ */
 .cardw{position:fixed;left:0;right:0;top:calc(50% + 3.5vh);z-index:100;margin:auto;
   width:min(400px,calc(100% - 88px));transform:translateY(-50%);}
 /* פינות HUD */
@@ -331,15 +353,17 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   border-radius:0 0 16px 0;}
 
 .card{position:relative;max-height:78vh;overflow-y:auto;scrollbar-width:none;direction:rtl;
-  background:rgba(6,6,6,.96);
+  background:rgba(5,5,5,.66);
   border:1px solid rgba(227,30,36,.6);border-radius:24px;
   box-shadow:0 0 34px rgba(227,30,36,.3);
   padding:22px 20px 18px;text-align:center;}
 .card::-webkit-scrollbar{width:0;height:0}
 
-.h1t{font-size:25px;font-weight:900;color:#fff;margin:2px 0 5px;line-height:1.35;}
+.h1t{font-size:25px;font-weight:900;color:#fff;margin:2px 0 5px;line-height:1.35;
+  text-shadow:0 1px 3px rgba(0,0,0,.85);}
 .h1t b{color:var(--rg);text-shadow:0 0 14px rgba(255,45,53,.75);}
-.subt{font-size:14.5px;font-weight:500;color:#c9c9cc;margin:0 0 13px;line-height:1.55;}
+.subt{font-size:14.5px;font-weight:500;color:#c9c9cc;margin:0 0 13px;line-height:1.55;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
 .badge{display:inline-block;color:#fff;font-weight:800;font-size:13.5px;line-height:1.4;
   padding:6px 17px;border-radius:50px;letter-spacing:.2px;
   background:linear-gradient(135deg,#e31e24 0%,#b3161b 100%);
@@ -364,7 +388,8 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);}
 .item .ic{flex:0 0 auto;width:40px;height:40px;border-radius:12px;font-size:21px;line-height:40px;
   text-align:center;background:rgba(227,30,36,.14);border:1px solid rgba(227,30,36,.4);}
-.item p{margin:0;font-size:13.5px;font-weight:500;line-height:1.55;color:#dcdce0;}
+.item p{margin:0;font-size:13.5px;font-weight:500;line-height:1.55;color:#dcdce0;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
 .item strong{display:block;font-size:15px;font-weight:800;color:#ff5a60;margin-bottom:3px;line-height:1.4;}
 
 .wa{display:block;margin-top:15px;padding:14px;border-radius:19px;
@@ -375,6 +400,23 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);}
 .wa:active{transform:scale(.97);}
 .wa .num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;}
+
+/* כפתורי הורדת אפליקציה — מוסתרים כברירת מחדל; ה-JS חושף רק בדפדפן
+   (לא בתוך ה-WebView של האפליקציה). בלי box-shadow — שמירה על התקציב. */
+.apps{display:none;margin:13px 0 2px;}
+.apst{font-size:12px;font-weight:700;color:#9a9aa0;margin:0 0 8px;letter-spacing:.2px;}
+.aprow{display:flex;gap:9px;justify-content:center;}
+.apb{display:flex;direction:ltr;align-items:center;justify-content:center;gap:8px;flex:1;
+  max-width:170px;padding:10px 8px;border-radius:14px;
+  background:rgba(8,8,8,.85);border:1px solid rgba(227,30,36,.55);
+  color:#fff;text-decoration:none;font-weight:800;font-size:13.5px;line-height:1.2;
+  white-space:nowrap;transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);}
+.apb:active{transform:scale(.97);}
+.apb svg{width:20px;height:20px;flex:0 0 auto;}
+@media (max-width:360px){
+  .aprow{flex-direction:column;align-items:stretch}
+  .apb{max-width:none}
+}
 
 /* ============ התאמות מסך ============ */
 @media (max-width:380px){
@@ -519,7 +561,7 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
         <b class="fc sgb"></b><b class="fc sgl"></b><b class="fc sgr"></b><b class="fc sgt"></b><b class="fc sgu"></b>
         <b class="fc sgf">
           <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
-          <span class="srow2">1.8 ק&#1524;מ</span>
+          <span class="srow2"><span class="kmv">1.8</span><span class="kmu">ק&#1524;מ</span></span>
         </b>
       </div>
     </div>
@@ -536,6 +578,14 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 
     <div id="mhlCd" class="cd"><i><b id="mhlD">-</b><u>ימים</u></i><i><b id="mhlH">-</b><u>שעות</u></i><i><b id="mhlM">-</b><u>דקות</u></i><i><b id="mhlS">-</b><u>שניות</u></i></div>
     <div id="mhlDone" class="cddone">ההשקה יצאה לדרך! 🎉</div>
+
+    <div id="mhlApps" class="apps">
+      <p class="apst">הורידו את האפליקציה שלנו</p>
+      <div class="aprow">
+        <a class="apb" href="https://apps.apple.com/us/app/%D7%9E%D7%A2%D7%9C%D7%94-%D7%94%D7%9E%D7%A9%D7%9C%D7%95%D7%97%D7%99%D7%9D/id6757471366" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.4 4.8C17.07 4.83 18.89 5.08 20.06 6.77C19.95 6.84 17.62 8.22 17.65 11.06C17.68 14.42 20.56 15.52 20.6 15.53C20.57 15.61 20.14 17.04 19.12 18.5L18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg><span>App Store</span></a>
+        <a class="apb" href="https://play.google.com/store/apps/details?id=com.customer.maalehamishlohim&amp;hl=he" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg><span>Google Play</span></a>
+      </div>
+    </div>
 
     <hr class="nhr">
 
@@ -598,6 +648,17 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 
   tick();
   timer = setInterval(tick, 1000);
+
+  /* כפתורי הורדת האפליקציה — מוצגים רק בדפדפן רגיל, לא בתוך
+     ה-WebView של האפליקציה (ה-UA עובר בירושה גם לתוך iframe). */
+  var ua = navigator.userAgent || '';
+  var isAndroidApp = /wv/i.test(ua);
+  var isIOSApp = !!(window.webkit && window.webkit.messageHandlers);
+  var inBrowser = !isAndroidApp && !isIOSApp;
+  if (inBrowser) {
+    var apps = document.getElementById("mhlApps");
+    if (apps) apps.style.display = "block";
+  }
 })();
 </script>
 
