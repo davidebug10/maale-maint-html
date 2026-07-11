@@ -649,15 +649,35 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   tick();
   timer = setInterval(tick, 1000);
 
-  /* כפתורי הורדת האפליקציה — מוצגים רק בדפדפן רגיל, לא בתוך
-     ה-WebView של האפליקציה (ה-UA עובר בירושה גם לתוך iframe). */
-  var ua = navigator.userAgent || '';
-  var isAndroidApp = /wv/i.test(ua);
-  var isIOSApp = !!(window.webkit && window.webkit.messageHandlers);
-  var inBrowser = !isAndroidApp && !isIOSApp;
-  if (inBrowser) {
+  /* כפתורי הורדת האפליקציה — מוצגים בכל דפדפן (דסקטופ ונייד),
+     מוסתרים רק בתוך אפליקציית iOS/אנדרואיד. זיהוי רב-אותות:
+     הדף רץ ב-iframe — האפליקציה מארחת אותו מדומיין hyperzod
+     (document.referrer), דפדפנים דרך www.maalehamishlohim.co.il.
+     אין להשתמש ב-window.webkit.messageHandlers — קיים גם
+     בספארי-אייפון רגיל ומסווג דפדפן-נייד כאפליקציה בטעות. */
+  var ua  = navigator.userAgent || '';
+  var ref = document.referrer || '';
+  var fromApp   = /hyperzod/i.test(ref);                                  /* ההורה הוא דומיין האפליקציה */
+  var androidWv = /\bwv\b/.test(ua);                                      /* WebView אנדרואיד */
+  var iosWv     = /iPhone|iPad|iPod/i.test(ua) && !/Safari\//.test(ua);   /* WKWebView חסר טוקן Safari */
+  var inApp = fromApp || androidWv || iosWv;
+
+  if (!inApp) {
     var apps = document.getElementById("mhlApps");
     if (apps) apps.style.display = "block";
+  }
+
+  /* מצב דיבאג לבדיקה מהטלפון: לפתוח את הדף עם ?debug=1 */
+  if (/[?&]debug=1/.test(location.search)) {
+    var dbg = document.createElement("div");
+    dbg.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:999;" +
+      "background:#000;color:#fff;font-size:11px;line-height:1.5;padding:4px 8px;" +
+      "direction:ltr;text-align:left;font-family:monospace;";
+    dbg.textContent = "ref=" + (ref || "(none)") +
+      " | androidWv=" + androidWv +
+      " | iosWv=" + iosWv +
+      " | inApp=" + inApp;
+    document.body.appendChild(dbg);
   }
 })();
 </script>
