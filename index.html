@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#05010f">
+<meta name="theme-color" content="#000000">
 <title>מעלה המשלוחים — ההשקה הגדולה ב-1.8</title>
 
 <meta property="og:type" content="website">
@@ -23,86 +23,76 @@
 
 <style>
 /* ===================================================================
-   מעלה המשלוחים — CYBER HIGHWAY | v4 | 2026-07-11
-   עולם תלת-ממדי אמיתי: perspective 900px, מקור 50%/34%.
-   הקרקע: מישור 6000x12000 ב-y=260, rotateX(90). הכביש סביב x=3000.
-   רכבי wireframe בניאון (ציאן/מגנטה/ענבר) על ציר Z אמיתי.
+   מעלה המשלוחים — CYBER HIGHWAY v5 (מותג אדום, תקציב ביצועים קשיח)
+   שחור #000 + אדום OLED (#e31e24 / זוהר #ff2d35). לבן שקוף לקווים,
+   ענבר לפנסי רכבים מתקרבים בלבד. רמזור וכפתור וואטסאפ — צבעים אמיתיים.
+   תקציב: אפס טשטוש-רקע | <=10 box-shadow (שכבה אחת) |
+   <=25 אנימציות | 5 רכבים | קרקע אחת 3000x7000, 3 שכבות רקע.
    זהירות WKWebView: אין filter / overflow / clip בתוך עץ ה-3D.
    =================================================================== */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
+html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   font-family:'Heebo',-apple-system,system-ui,sans-serif;}
 
 :root{
-  --cy:#00e5ff;--cyR:0,229,255;
-  --mg:#ff2bd6;--mgR:255,43,214;
-  --am:#ffb020;--amR:255,176,32;
+  --rd:#e31e24;          /* אדום מותג */
+  --rg:#ff2d35;          /* אדום זוהר */
+  --rdR:227,30,36;
+  --rgR:255,45,53;
+  --am:#ffb020;          /* ענבר — פנסי רכבים מתקרבים בלבד */
 }
 
-/* ============ שמיים (שכבה דו-ממדית, מחוץ לעולם ה-3D) ============ */
+/* ============ שמיים (דו-ממד, מחוץ לעולם ה-3D) ============ */
 .sky{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1;pointer-events:none;direction:ltr;
-  background:linear-gradient(180deg,#020210 0%,#060322 26%,#120735 40%,#1c0a3a 52%,#0b0520 68%,#04020e 100%);}
+  background:linear-gradient(180deg,#000 0%,#000 22%,#0d0203 34%,#070101 46%,#000 62%,#000 100%);}
 
 .stars,.stars2{position:absolute;top:0;left:0;right:0;height:34vh;}
-.stars{opacity:.65;animation:twinkle 7s ease-in-out infinite alternate;
+.stars{opacity:.55;animation:twinkle 7s ease-in-out infinite alternate;
   background-image:
-    radial-gradient(1.4px 1.4px at 11% 30%,rgba(255,255,255,.95),transparent 60%),
-    radial-gradient(1.1px 1.1px at 27% 14%,rgba(190,240,255,.75),transparent 60%),
-    radial-gradient(1.6px 1.6px at 46% 42%,rgba(255,255,255,.85),transparent 60%),
-    radial-gradient(1.1px 1.1px at 63% 18%,rgba(255,210,250,.7),transparent 60%),
-    radial-gradient(1.5px 1.5px at 81% 32%,rgba(255,255,255,.9),transparent 60%),
-    radial-gradient(1.1px 1.1px at 93% 12%,rgba(190,240,255,.65),transparent 60%);}
-.stars2{opacity:.4;animation:twinkle 9s ease-in-out infinite alternate-reverse;
+    radial-gradient(1.4px 1.4px at 11% 30%,rgba(255,255,255,.8),transparent 60%),
+    radial-gradient(1.1px 1.1px at 27% 14%,rgba(255,255,255,.55),transparent 60%),
+    radial-gradient(1.6px 1.6px at 46% 42%,rgba(255,255,255,.7),transparent 60%),
+    radial-gradient(1.1px 1.1px at 63% 18%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1.5px 1.5px at 81% 32%,rgba(255,255,255,.75),transparent 60%),
+    radial-gradient(1.1px 1.1px at 93% 12%,rgba(255,255,255,.5),transparent 60%);}
+.stars2{opacity:.35;animation:twinkle 9s ease-in-out infinite alternate-reverse;
   background-image:
-    radial-gradient(1px 1px at 18% 58%,rgba(255,255,255,.7),transparent 60%),
-    radial-gradient(1.2px 1.2px at 38% 70%,rgba(190,240,255,.6),transparent 60%),
-    radial-gradient(1px 1px at 55% 52%,rgba(255,210,250,.65),transparent 60%),
-    radial-gradient(1.2px 1.2px at 72% 76%,rgba(255,255,255,.6),transparent 60%),
-    radial-gradient(1px 1px at 88% 60%,rgba(190,240,255,.6),transparent 60%),
-    radial-gradient(1.1px 1.1px at 6% 74%,rgba(255,255,255,.55),transparent 60%);}
-@keyframes twinkle{from{opacity:.3}to{opacity:.75}}
+    radial-gradient(1px 1px at 18% 58%,rgba(255,255,255,.55),transparent 60%),
+    radial-gradient(1.2px 1.2px at 38% 70%,rgba(255,255,255,.45),transparent 60%),
+    radial-gradient(1px 1px at 55% 52%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1.2px 1.2px at 72% 76%,rgba(255,255,255,.45),transparent 60%),
+    radial-gradient(1px 1px at 88% 60%,rgba(255,255,255,.45),transparent 60%);}
+@keyframes twinkle{from{opacity:.25}to{opacity:.6}}
 
-/* ירח סייבר */
-.moon{position:absolute;right:7vw;top:5vh;width:150px;height:150px;border-radius:50%;
-  background:radial-gradient(circle at 36% 30%,#eafcff 0%,#9deefc 34%,#3f9fc7 62%,#173a5e 84%,#0c1c34 100%);
-  box-shadow:0 0 60px 18px rgba(0,229,255,.28),0 0 140px 60px rgba(0,229,255,.10),
-             inset -14px -18px 42px rgba(6,10,40,.75);}
-.moon::before{content:'';position:absolute;left:22%;top:52%;width:26px;height:26px;border-radius:50%;
-  background:rgba(20,60,100,.4);box-shadow:34px -26px 0 -6px rgba(20,60,100,.35),18px 22px 0 -10px rgba(20,60,100,.3);}
-.moon::after{content:'';position:absolute;left:-12%;top:44%;width:124%;height:14px;border-radius:8px;
-  background:linear-gradient(90deg,transparent,rgba(255,43,214,.35) 30%,rgba(0,229,255,.45) 70%,transparent);}
+/* ירח */
+.moon{position:absolute;right:7vw;top:5vh;width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,#fff 0%,#ffd9da 30%,#a8383c 62%,#3d0e10 85%,#1c0405 100%);
+  box-shadow:0 0 50px 14px rgba(227,30,36,.35);}
+.moon::before{content:'';position:absolute;left:22%;top:52%;width:24px;height:24px;border-radius:50%;
+  background:rgba(80,15,18,.45);}
 
 /* קו רקיע רחוק */
-.skyline{position:absolute;left:0;right:0;top:calc(34vh - 8vh);height:8vh;background-color:#05081c;
+.skyline{position:absolute;left:0;right:0;top:calc(34vh - 8vh);height:8vh;background-color:#050505;
   background-image:
-    repeating-linear-gradient(90deg,transparent 0 8px,rgba(0,229,255,.16) 8px 10px,transparent 10px 17px),
-    repeating-linear-gradient(0deg,transparent 0 6px,rgba(255,43,214,.10) 6px 8px,transparent 8px 14px);
+    repeating-linear-gradient(90deg,transparent 0 8px,rgba(255,45,53,.16) 8px 10px,transparent 10px 17px),
+    repeating-linear-gradient(0deg,transparent 0 6px,rgba(255,45,53,.09) 6px 8px,transparent 8px 14px);
   clip-path:polygon(0 34%,4% 34%,4% 55%,8% 55%,8% 20%,12% 20%,12% 48%,17% 48%,17% 8%,21% 8%,21% 40%,26% 40%,26% 26%,31% 26%,31% 58%,36% 58%,36% 14%,40% 14%,40% 44%,45% 44%,45% 30%,50% 30%,50% 50%,55% 50%,55% 10%,59% 10%,59% 38%,64% 38%,64% 22%,68% 22%,68% 52%,73% 52%,73% 5%,77% 5%,77% 36%,82% 36%,82% 18%,87% 18%,87% 46%,91% 46%,91% 28%,96% 28%,96% 56%,100% 56%,100% 100%,0 100%);}
 
-/* זוהר אופק */
+/* זוהר אופק אדום */
 .horizonglow{position:absolute;left:0;right:0;top:22vh;height:22vh;
-  background:radial-gradient(55% 72% at 50% 55%,rgba(0,229,255,.15),rgba(255,43,214,.09) 52%,transparent 78%);}
+  background:radial-gradient(55% 72% at 50% 55%,rgba(227,30,36,.18),rgba(227,30,36,.06) 55%,transparent 78%);}
 
-/* רחפנים */
-.drone{position:absolute;left:0;width:54px;height:16px;}
+/* רחפן יחיד */
+.drone{position:absolute;left:0;width:54px;height:16px;top:9vh;animation:dfly 21s linear infinite;}
 .drone .hull{position:absolute;left:16px;top:5px;width:22px;height:7px;border-radius:4px;
-  background:#0b1226;border:1px solid rgba(0,229,255,.7);box-shadow:0 0 8px rgba(0,229,255,.5);}
-.drone .rt{position:absolute;top:2px;width:7px;height:4px;border-radius:2px;}
+  background:#0c0c0c;border:1px solid rgba(255,45,53,.75);}
+.drone .rt{position:absolute;top:2px;width:7px;height:4px;border-radius:2px;background:rgba(255,45,53,.85);}
 .drone .r1{left:6px}.drone .r2{right:6px}
 .drone .lamp{position:absolute;left:24px;top:11px;width:6px;height:6px;border-radius:50%;
-  animation:dblink 1.1s steps(2) infinite;}
-.d1{top:8vh;animation:dfly1 19s linear infinite;}
-.d1 .rt{background:rgba(0,229,255,.85);box-shadow:0 0 6px rgba(0,229,255,.8)}
-.d1 .lamp{background:#7df3ff;box-shadow:0 0 10px 3px rgba(0,229,255,.8)}
-.d1 .trail{position:absolute;right:100%;top:7px;width:150px;height:2px;border-radius:2px;
-  background:linear-gradient(270deg,rgba(0,229,255,.75),transparent);}
-.d2{top:14.5vh;animation:dfly2 27s linear infinite;}
-.d2 .rt{background:rgba(255,43,214,.85);box-shadow:0 0 6px rgba(255,43,214,.8)}
-.d2 .lamp{background:#ffb8ef;box-shadow:0 0 10px 3px rgba(255,43,214,.8)}
-.d2 .trail{position:absolute;left:100%;top:7px;width:150px;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,rgba(255,43,214,.7),transparent);}
-@keyframes dfly1{from{transform:translateX(-22vw)}to{transform:translateX(118vw)}}
-@keyframes dfly2{from{transform:translateX(118vw)}to{transform:translateX(-26vw)}}
+  background:#ff6a70;animation:dblink 1.1s steps(2) infinite;}
+.drone .trail{position:absolute;right:100%;top:7px;width:140px;height:2px;border-radius:2px;
+  background:linear-gradient(270deg,rgba(255,45,53,.7),transparent);}
+@keyframes dfly{from{transform:translateX(-22vw)}to{transform:translateX(118vw)}}
 @keyframes dblink{from{opacity:1}to{opacity:.25}}
 
 /* ============ הבמה התלת-ממדית ============ */
@@ -110,58 +100,39 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
   perspective:900px;perspective-origin:50% 34%;}
 .world{position:absolute;left:50%;top:34vh;width:0;height:0;transform-style:preserve-3d;}
 
-/* פאה גנרית */
 .fc{position:absolute;left:0;top:0;display:block;}
 
-/* ---------- הקרקע: מישור 6000x12000 שוכב ---------- */
-.ground{position:absolute;left:-3000px;top:-6000px;width:6000px;height:12000px;
-  transform:translateY(260px) rotateX(90deg);
-  background:linear-gradient(180deg,#05041a 0%,#070527 42%,#04030f 100%);}
-/* קווי אורך סטטיים */
-.g-lon{position:absolute;left:0;top:0;width:100%;height:100%;
-  background:repeating-linear-gradient(90deg,rgba(0,229,255,.10) 0 2px,transparent 2px 150px);}
-/* קווי רוחב — הרשת הזורמת (אנימציית transform, לא צבע-רקע, לביצועים) */
-.g-lat{position:absolute;left:0;top:-300px;width:100%;height:12450px;
-  background:repeating-linear-gradient(180deg,rgba(0,229,255,.20) 0 2px,transparent 2px 150px);
-  animation:gflow 1.25s linear infinite;will-change:transform;}
-@keyframes gflow{from{transform:translateY(0)}to{transform:translateY(150px)}}
-/* הכביש: מרכז x=3000, שפות ±240 */
-.g-road{position:absolute;left:2760px;top:0;width:480px;height:100%;
-  background:linear-gradient(90deg,#0a0d1c 0%,#10142a 50%,#0a0d1c 100%);}
-.rel,.rer{position:absolute;top:0;bottom:0;width:5px;background:rgba(140,230,255,.55);
-  box-shadow:0 0 14px 2px rgba(0,229,255,.45);}
-.rel{left:-2px}.rer{right:-2px}
-.rs{position:absolute;top:0;bottom:0;width:4px;
-  background:repeating-linear-gradient(180deg,rgba(200,240,255,.42) 0 80px,transparent 80px 230px);}
-.rs1{left:118px}.rs2{left:238px}.rs3{left:358px}
-/* עמעום עומק על הקרקע: הקצה הרחוק נמס באופק */
-.g-fade{position:absolute;left:0;top:0;width:100%;height:100%;
-  background:linear-gradient(180deg,#04020e 0%,rgba(4,2,14,.85) 7%,rgba(4,2,14,0) 26%,rgba(4,2,14,0) 88%,rgba(4,2,14,.8) 100%);}
+/* ---------- הקרקע: אלמנט אחד 3000x7000, שלוש שכבות רקע ----------
+   שכבה 1: הכביש (מרכז x=1500, שפות +-240, קווי נתיב רציפים)
+   שכבה 2: קווי רוחב — הרשת הזורמת (האנימציה היחידה כאן)
+   שכבה 3: קווי אורך סטטיים */
+.ground{position:absolute;left:-1500px;top:-3500px;width:3000px;height:7000px;
+  transform:translateY(260px) rotateX(90deg);background-color:#000;
+  background-image:
+    linear-gradient(90deg,transparent 0 1256px,rgba(255,255,255,.5) 1256px 1262px,#090909 1262px 1378px,rgba(255,255,255,.15) 1378px 1382px,#090909 1382px 1498px,rgba(255,255,255,.15) 1498px 1502px,#090909 1502px 1618px,rgba(255,255,255,.15) 1618px 1622px,#090909 1622px 1738px,rgba(255,255,255,.5) 1738px 1744px,transparent 1744px),
+    repeating-linear-gradient(180deg,rgba(255,45,53,.20) 0 2px,transparent 2px 150px),
+    repeating-linear-gradient(90deg,rgba(255,45,53,.10) 0 2px,transparent 2px 150px);
+  animation:gflow 1.4s linear infinite;}
+@keyframes gflow{
+  from{background-position:0 0,0 0,0 0}
+  to{background-position:0 0,0 150px,0 0}
+}
 
-/* ---------- רכבי WIREFRAME ניאון ---------- */
+/* ---------- רכבי WIREFRAME אדומים (5 בלבד) ---------- */
 .car{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform;}
 .car.go{animation:goZ var(--dur,11s) linear infinite;animation-delay:var(--del,0s);}
 .car.come{animation:comeZ var(--dur,12s) linear infinite;animation-delay:var(--del,0s);}
-@keyframes goZ{from{transform:translate3d(var(--lx),260px,540px)}
-  to{transform:translate3d(var(--lx),260px,-5400px)}}
-@keyframes comeZ{from{transform:translate3d(var(--lx),260px,-5400px) rotateY(180deg)}
-  to{transform:translate3d(var(--lx),260px,540px) rotateY(180deg)}}
-/* עמעום כניסה/יציאה על "עלים" בלבד — opacity על קבוצת preserve-3d משטחת אותה */
-.car.go .f{animation:goFade var(--dur,11s) linear infinite;animation-delay:var(--del,0s);}
-.car.come .f{animation:comeFade var(--dur,12s) linear infinite;animation-delay:var(--del,0s);}
-@keyframes goFade{0%{opacity:0}4%{opacity:1}86%{opacity:1}98%{opacity:0}100%{opacity:0}}
-@keyframes comeFade{0%{opacity:0}9%{opacity:1}93%{opacity:1}100%{opacity:0}}
-
-.cC{--c:var(--cy);--cR:var(--cyR)}
-.cM{--c:var(--mg);--cR:var(--mgR)}
-.cA{--c:var(--am);--cR:var(--amR)}
+/* טווח: +720 (מחוץ למסך, ליד המצלמה) עד ‎-3300 (נמס בערפל) — בלי אנימציות שקיפות */
+@keyframes goZ{from{transform:translate3d(var(--lx),260px,720px)}
+  to{transform:translate3d(var(--lx),260px,-3300px)}}
+@keyframes comeZ{from{transform:translate3d(var(--lx),260px,-3300px) rotateY(180deg)}
+  to{transform:translate3d(var(--lx),260px,720px) rotateY(180deg)}}
 
 .cb{position:absolute;left:0;top:0;transform-style:preserve-3d;}
 .cb.bd{transform:translateY(-50px)}
 .cb.cab{transform:translate3d(0,-98px,-24px)}
-.car .fc{background:rgba(var(--cR),.06);border:2px solid rgba(var(--cR),.85);border-radius:6px;
-  box-shadow:0 0 10px rgba(var(--cR),.30),inset 0 0 12px rgba(var(--cR),.14);}
-/* מרכב: 112x52x232 */
+.car .fc{background:rgba(var(--rgR),.05);border:2px solid rgba(var(--rgR),.9);border-radius:6px;}
+/* מרכב 112x52x232 */
 .bf,.bb{width:112px;height:52px;margin:-26px 0 0 -56px;}
 .bf{transform:translateZ(116px)}
 .bb{transform:rotateY(180deg) translateZ(116px)}
@@ -169,69 +140,57 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 .bsl{transform:rotateY(-90deg) translateZ(56px)}
 .bsr{transform:rotateY(90deg) translateZ(56px)}
 .bt{width:112px;height:232px;margin:-116px 0 0 -56px;transform:rotateX(90deg) translateZ(26px)}
-/* תא נוסעים: 92x42x110 */
+/* תא נוסעים 92x42x110 */
 .kf,.kb{width:92px;height:42px;margin:-21px 0 0 -46px;}
 .kf{transform:translateZ(55px)}
 .kb{transform:rotateY(180deg) translateZ(55px)}
 .ksl,.ksr{width:110px;height:42px;margin:-21px 0 0 -55px;}
 .ksl{transform:rotateY(-90deg) translateZ(46px)}
 .ksr{transform:rotateY(90deg) translateZ(46px)}
-.kt{width:92px;height:110px;margin:-55px 0 0 -46px;transform:rotateX(90deg) translateZ(21px)}
-/* טבעות גלגלים על פאות הצד */
+.kt{transform:rotateX(90deg) translateZ(21px);width:92px;height:110px;margin:-55px 0 0 -46px;}
+/* טבעות גלגלים */
 .wh{position:absolute;left:0;top:0;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;
-  border:3px solid rgba(var(--cR),.95);
-  box-shadow:0 0 10px rgba(var(--cR),.5),inset 0 0 8px rgba(var(--cR),.4);}
+  border:3px solid rgba(var(--rgR),.95);}
 .wh::after{content:'';position:absolute;left:9px;top:9px;right:9px;bottom:9px;border-radius:50%;
-  border:2px solid rgba(var(--cR),.5);}
+  border:2px solid rgba(var(--rgR),.5);}
 .w1{transform:translate3d(-57px,-24px,-70px) rotateY(90deg)}
 .w2{transform:translate3d(57px,-24px,-70px) rotateY(90deg)}
 .w3{transform:translate3d(-57px,-24px,70px) rotateY(90deg)}
 .w4{transform:translate3d(57px,-24px,70px) rotateY(90deg)}
 /* פס תאורה אחורי */
 .lbar{position:absolute;left:0;top:0;width:100px;height:5px;margin:-2px 0 0 -50px;border-radius:3px;
-  background:rgb(var(--cR));box-shadow:0 0 14px 4px rgba(var(--cR),.75);
-  transform:translate3d(0,-62px,117px);}
-/* שובל אור שוכב על הכביש */
-.trail{position:absolute;left:0;top:0;width:12px;height:400px;margin:-200px 0 0 -6px;border-radius:6px;
-  background:linear-gradient(180deg,rgba(var(--cR),.5),rgba(var(--cR),0) 85%);
-  transform:translate3d(0,-3px,320px) rotateX(90deg);}
-/* הילת פנסים לרכבים מתקרבים */
+  background:var(--rg);transform:translate3d(0,-62px,117px);}
+/* שובל/זוהר אדום שוכב על הכביש מתחת לרכב (קצר — לא חוצה את מישור המצלמה) */
+.trail{position:absolute;left:0;top:0;width:12px;height:300px;margin:-150px 0 0 -6px;border-radius:6px;
+  background:linear-gradient(180deg,transparent,rgba(var(--rgR),.5) 40% 60%,transparent);
+  transform:translate3d(0,-3px,0) rotateX(90deg);}
+/* פנסי ענבר לרכבים מתקרבים בלבד */
 .halo,.hlp{display:none;position:absolute;left:0;top:0;}
 .car.come .halo{display:block;width:240px;height:130px;margin:-65px 0 0 -120px;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(255,250,230,.85),rgba(255,176,32,.30) 48%,rgba(255,176,32,0) 72%);
+  background:radial-gradient(closest-side,rgba(255,244,214,.8),rgba(255,176,32,.28) 48%,rgba(255,176,32,0) 72%);
   transform:translate3d(0,-44px,-125px);}
 .car.come .hlp{display:block;width:20px;height:12px;margin:-6px 0 0 -10px;border-radius:50%;
-  background:#fff7e6;box-shadow:0 0 16px 6px rgba(255,214,150,.9);}
-.hl1{transform:translate3d(-32px,-44px,-118px)}
-.hl2{transform:translate3d(32px,-44px,-118px)}
+  background:var(--am);transform:translate3d(-32px,-44px,-118px);}
+.hl2{transform:translate3d(32px,-44px,-118px) !important}
 
-/* ---------- רמזור תלת-ממדי מלא ---------- */
+/* ---------- רמזור תלת-ממדי מלא (אחד בלבד) ---------- */
 .tl{position:absolute;left:0;top:0;transform-style:preserve-3d;}
-.tl .met{background:linear-gradient(180deg,#1c2440,#0b0f1e);border:1px solid rgba(110,150,210,.28);
-  box-shadow:inset 0 0 10px rgba(0,0,0,.55);}
-/* עמוד 16x340x16 */
-.plf,.plb{width:16px;height:340px;margin:-170px 0 0 -8px;}
+.tl .met{background:linear-gradient(180deg,#1a1a1a,#080808);border:1px solid rgba(255,45,53,.22);}
+.plf,.plb,.pll,.plr{width:16px;height:340px;margin:-170px 0 0 -8px;}
 .plf{transform:translateZ(8px)}
 .plb{transform:rotateY(180deg) translateZ(8px)}
-.pll,.plr{width:16px;height:340px;margin:-170px 0 0 -8px;}
 .pll{transform:rotateY(-90deg) translateZ(8px)}
 .plr{transform:rotateY(90deg) translateZ(8px)}
 .tl .pole{position:absolute;left:0;top:0;transform:translateY(-170px);transform-style:preserve-3d;}
-/* זרוע אופקית 190x12x12 */
-.tl .arm{position:absolute;left:0;top:0;transform:translate3d(-95px,-330px,0);transform-style:preserve-3d;}
-.tl.mir .arm{transform:translate3d(95px,-330px,0)}
-.arf,.arb{width:190px;height:12px;margin:-6px 0 0 -95px;}
+.arf,.arb,.art,.aru{width:190px;height:12px;margin:-6px 0 0 -95px;}
 .arf{transform:translateZ(6px)}
 .arb{transform:rotateY(180deg) translateZ(6px)}
-.art,.aru{width:190px;height:12px;margin:-6px 0 0 -95px;}
 .art{transform:rotateX(90deg) translateZ(6px)}
 .aru{transform:rotateX(-90deg) translateZ(6px)}
-/* ראש 64x162x42 */
-.tl .head{position:absolute;left:0;top:0;transform:translate3d(-180px,-243px,0);transform-style:preserve-3d;}
-.tl.mir .head{transform:translate3d(180px,-243px,0)}
+.tl .arm{position:absolute;left:0;top:0;transform:translate3d(-95px,-330px,0);transform-style:preserve-3d;}
 .hf,.hb{width:64px;height:162px;margin:-81px 0 0 -32px;}
 .hf{transform:translateZ(21px);transform-style:preserve-3d;
-  background:linear-gradient(180deg,#141a2e,#090d19);border:1px solid rgba(110,150,210,.3);border-radius:8px;}
+  background:linear-gradient(180deg,#141414,#090909);border:1px solid rgba(255,45,53,.3);border-radius:8px;}
 .hb{transform:rotateY(180deg) translateZ(21px);border-radius:8px;}
 .hsl,.hsr{width:42px;height:162px;margin:-81px 0 0 -21px;}
 .hsl{transform:rotateY(-90deg) translateZ(32px)}
@@ -239,7 +198,8 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 .hto,.hun{width:64px;height:42px;margin:-21px 0 0 -32px;}
 .hto{transform:rotateX(90deg) translateZ(81px)}
 .hun{transform:rotateX(-90deg) translateZ(81px)}
-/* מנורות — מחזור רמזור ישראלי */
+.tl .head{position:absolute;left:0;top:0;transform:translate3d(-180px,-243px,0);transform-style:preserve-3d;}
+/* מנורות — מחזור רמזור ישראלי (צבעים אמיתיים, box-shadow שכבה אחת) */
 .lp{position:absolute;left:50%;width:38px;height:38px;margin-left:-19px;border-radius:50%;}
 .lr{top:12px;background:#ff3b45;box-shadow:0 0 22px 8px rgba(255,55,65,.8);animation:cycR 12s linear infinite;}
 .ly{top:62px;background:#4a3c10;animation:cycY 12s linear infinite;}
@@ -255,21 +215,20 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 @keyframes cycG{0%,46%{background:#0c3520;box-shadow:none}
   48%,84%{background:#2be77a;box-shadow:0 0 22px 8px rgba(45,225,120,.8)}
   86%,100%{background:#0c3520;box-shadow:none}}
-/* מצחיות — גופים שבולטים קדימה מהפאה */
+/* מצחיות בולטות */
 .vz{position:absolute;left:9px;width:46px;height:26px;border-radius:6px 6px 16px 16px;
-  background:linear-gradient(180deg,#2a3452,#0a0e1a);border:1px solid rgba(150,190,255,.42);
-  box-shadow:inset 0 1px 0 rgba(200,225,255,.25);
+  background:linear-gradient(180deg,#262626,#0a0a0a);border:1px solid rgba(255,255,255,.25);
   transform-origin:50% 0;transform:rotateX(76deg);}
 .vz1{top:10px}.vz2{top:60px}.vz3{top:110px}
 
-/* ---------- מגדלים ---------- */
+/* ---------- מגדלים (4) ---------- */
 .twr{position:absolute;left:0;top:0;transform-style:preserve-3d;}
 .tbox{position:absolute;left:0;top:0;transform:translateY(calc(var(--h)/-2));transform-style:preserve-3d;}
-.twr .fc{background-color:#060913;border:1px solid rgba(var(--wc),.28);
+.twr .fc{background-color:#050505;border:1px solid rgba(255,45,53,.22);
   background-image:
-    linear-gradient(180deg,rgba(2,3,10,.85) 0%,rgba(2,3,10,0) 34%),
-    repeating-linear-gradient(180deg,transparent 0 9px,rgba(var(--wc),.16) 9px 22px,transparent 22px 31px),
-    repeating-linear-gradient(90deg,transparent 0 7px,rgba(var(--wc),.13) 7px 17px,transparent 17px 24px);}
+    linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 34%),
+    repeating-linear-gradient(180deg,transparent 0 9px,rgba(255,45,53,.15) 9px 22px,transparent 22px 31px),
+    repeating-linear-gradient(90deg,transparent 0 7px,rgba(255,45,53,.11) 7px 17px,transparent 17px 24px);}
 .tf,.tb{width:var(--w);height:var(--h);margin:calc(var(--h)/-2) 0 0 calc(var(--w)/-2);}
 .tf{transform:translateZ(calc(var(--d)/2))}
 .tb{transform:rotateY(180deg) translateZ(calc(var(--d)/2))}
@@ -277,62 +236,45 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 .tsl{transform:rotateY(-90deg) translateZ(calc(var(--w)/2))}
 .tsr{transform:rotateY(90deg) translateZ(calc(var(--w)/2))}
 .tt{width:var(--w);height:var(--d);margin:calc(var(--d)/-2) 0 0 calc(var(--w)/-2);
-  transform:rotateX(90deg) translateZ(calc(var(--h)/2));background-image:none;background-color:#04060e;}
-/* אנטנה עם נורית מהבהבת */
+  transform:rotateX(90deg) translateZ(calc(var(--h)/2));background-image:none;background-color:#020202;}
+/* אנטנה עם נורית מהבהבת (שני מגדלים בלבד) */
 .ant{position:absolute;left:0;top:0;transform:translateY(calc(var(--h)*-1));transform-style:preserve-3d;}
 .ant b{position:absolute;left:0;top:0;display:block;width:4px;height:80px;margin:-80px 0 0 -2px;
-  background:linear-gradient(180deg,#2a3350,#0c101d);}
+  background:linear-gradient(180deg,#222,#0a0a0a);}
 .ant b.a2{transform:rotateY(90deg)}
 .adot{position:absolute;left:0;top:0;width:8px;height:8px;margin:-84px 0 0 -4px;border-radius:50%;
   background:#ff3b45;animation:ablink 2.4s linear infinite;animation-delay:var(--ad,0s);}
-@keyframes ablink{0%,68%{opacity:.2;box-shadow:none}
-  74%,92%{opacity:1;box-shadow:0 0 12px 4px rgba(255,60,70,.8)}
-  100%{opacity:.2;box-shadow:none}}
+@keyframes ablink{0%,68%{opacity:.15}74%,92%{opacity:1}100%{opacity:.15}}
 
-/* ---------- שלטי חוצות ---------- */
-.bb{position:absolute;left:0;top:0;transform-style:preserve-3d;}
+/* ---------- שלטי חוצות (2) ---------- */
+.bb2p{position:absolute;left:0;top:0;transform-style:preserve-3d;}
 .bpanel{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;direction:rtl;
-  background:rgba(6,10,24,.88);border:3px solid rgba(var(--bc),.85);border-radius:14px;
-  box-shadow:0 0 22px rgba(var(--bc),.4),inset 0 0 30px rgba(var(--bc),.12);}
-.bleg{position:absolute;left:0;top:0;width:10px;background:linear-gradient(180deg,#232c48,#0b0f1e);
-  border:1px solid rgba(110,150,210,.25);}
-/* שלט 1: "1.8 ק״מ" ענק */
-.bb1 .bpanel{width:520px;height:300px;margin:-150px 0 0 -260px;transform:translateY(-300px);}
-.bb1 .big{font-size:120px;font-weight:900;color:var(--am);line-height:1.05;
-  text-shadow:0 0 18px rgba(255,176,32,.9),0 0 60px rgba(255,176,32,.5);}
-.bb1 .small{font-size:56px;font-weight:800;color:#ffe9c4;letter-spacing:2px;
-  text-shadow:0 0 14px rgba(255,176,32,.8);}
-.bb1 .bleg{height:160px;transform:translateY(-160px);}
-.bb1 .lg1{margin-left:-190px}.bb1 .lg2{margin-left:180px}
-/* שלט 2: "בקרוב" */
-.bb2 .bpanel{width:430px;height:230px;margin:-115px 0 0 -215px;transform:translateY(-265px);}
-.bb2 .big{font-size:104px;font-weight:900;color:var(--mg);
-  text-shadow:0 0 18px rgba(255,43,214,.9),0 0 60px rgba(255,43,214,.5);}
-.bb2 .bleg{height:150px;transform:translateY(-150px);}
-.bb2 .lg1{margin-left:-150px}.bb2 .lg2{margin-left:140px}
-/* שלט 3: "משלוחים" אנכי */
-.bb3 .bpanel{width:150px;height:600px;margin:-300px 0 0 -75px;transform:translateY(-650px);
-  justify-content:space-evenly;padding:16px 0;}
-.bb3 .lt{font-size:58px;font-weight:900;color:var(--cy);line-height:1;
-  text-shadow:0 0 14px rgba(0,229,255,.9),0 0 44px rgba(0,229,255,.5);}
-.bb3 .bleg{height:50px;transform:translateY(-50px);}
-.bb3 .lg1{margin-left:-40px}.bb3 .lg2{margin-left:30px}
+  background:rgba(5,5,5,.92);border:3px solid rgba(255,45,53,.85);border-radius:14px;}
+.bleg{position:absolute;left:0;top:0;width:10px;background:linear-gradient(180deg,#1e1e1e,#080808);
+  border:1px solid rgba(255,255,255,.14);}
+/* שלט "1.8 ק״מ" ענק */
+.bbA .bpanel{width:520px;height:300px;margin:-150px 0 0 -260px;transform:translateY(-300px);}
+.bbA .big{font-size:120px;font-weight:900;color:var(--rg);line-height:1.05;
+  text-shadow:0 0 22px rgba(255,45,53,.8);}
+.bbA .small{font-size:56px;font-weight:800;color:rgba(255,255,255,.85);letter-spacing:2px;}
+.bbA .bleg{height:160px;transform:translateY(-160px);}
+.bbA .lg1{margin-left:-190px}.bbA .lg2{margin-left:180px}
+/* שלט "בקרוב" */
+.bbB .bpanel{width:430px;height:230px;margin:-115px 0 0 -215px;transform:translateY(-265px);}
+.bbB .big{font-size:104px;font-weight:900;color:var(--rg);text-shadow:0 0 22px rgba(255,45,53,.8);}
+.bbB .bleg{height:150px;transform:translateY(-150px);}
+.bbB .lg1{margin-left:-150px}.bbB .lg2{margin-left:140px}
 
-/* ---------- ערפל אופק (מעל הרכבים הרחוקים) ---------- */
-.fog{position:fixed;left:0;right:0;top:calc(34vh - 10vh);height:20vh;z-index:20;pointer-events:none;
-  background:radial-gradient(58% 100% at 50% 55%,rgba(120,40,170,.36),rgba(0,229,255,.10) 52%,transparent 80%);}
+/* ---------- ערפל אופק ---------- */
+.fog{position:fixed;left:0;right:0;top:calc(34vh - 9vh);height:19vh;z-index:20;pointer-events:none;
+  background:radial-gradient(58% 100% at 50% 55%,rgba(227,30,36,.22),rgba(227,30,36,.07) 52%,transparent 80%);}
 
-/* ---------- השלט העילי: במה נפרדת מעל הכרטיס ---------- */
+/* ---------- השלט העילי (במה נפרדת — תמיד מעל הכרטיס, סטטי) ---------- */
 .signstage{position:fixed;top:0;left:0;right:0;bottom:0;z-index:110;pointer-events:none;direction:ltr;
   perspective:900px;perspective-origin:50% 34%;}
 .sign{position:absolute;left:0;top:0;transform:translate3d(0,-352px,-260px);transform-style:preserve-3d;}
-.sway{position:absolute;left:0;top:0;transform-origin:50% 0;transform-style:preserve-3d;
-  animation:sway 7s ease-in-out infinite;}
-@keyframes sway{0%,100%{transform:rotateX(1.5deg)}50%{transform:rotateX(-1.5deg)}}
-.sign .met{background:linear-gradient(180deg,#1e2742,#0b0f1e);border:1px solid rgba(0,229,255,.35);
-  box-shadow:inset 0 0 8px rgba(0,0,0,.5);}
-/* קורת תלייה (מקורה) 470x12x34 */
+.sign .met{background:linear-gradient(180deg,#1c1c1c,#090909);border:1px solid rgba(255,45,53,.3);}
 .scanopy{position:absolute;left:0;top:0;transform:translateY(6px);transform-style:preserve-3d;}
 .cnf,.cnb{width:470px;height:12px;margin:-6px 0 0 -235px;}
 .cnf{transform:translateZ(17px)}
@@ -340,120 +282,95 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 .cnt,.cnu{width:470px;height:34px;margin:-17px 0 0 -235px;}
 .cnt{transform:rotateX(90deg) translateZ(6px)}
 .cnu{transform:rotateX(-90deg) translateZ(6px)}
-/* מוטות תלייה */
 .srod{position:absolute;left:0;top:0;transform-style:preserve-3d;}
 .srod b{position:absolute;left:0;top:0;display:block;width:8px;height:32px;margin:0 0 0 -4px;
-  background:linear-gradient(180deg,#28324f,#0d1120);border:1px solid rgba(0,229,255,.3);}
+  background:linear-gradient(180deg,#242424,#0c0c0c);border:1px solid rgba(255,45,53,.28);}
 .srod b.q2{transform:rotateY(90deg)}
 .sr1{transform:translate3d(-170px,12px,0)}
 .sr2{transform:translate3d(170px,12px,0)}
-/* לוח השלט 440x110x18 */
+/* לוח 440x110x18 */
 .sboard{position:absolute;left:0;top:0;transform:translateY(99px);transform-style:preserve-3d;}
 .sgf,.sgb{width:440px;height:110px;margin:-55px 0 0 -220px;border-radius:10px;}
 .sgf{transform:translateZ(9px);display:flex;flex-direction:column;align-items:center;justify-content:center;
-  direction:rtl;background:linear-gradient(180deg,rgba(8,16,34,.94),rgba(5,9,22,.94));
-  border:2px solid rgba(0,229,255,.85);
-  box-shadow:0 0 20px rgba(0,229,255,.4),inset 0 0 26px rgba(0,229,255,.12);}
-.sgb{transform:rotateY(180deg) translateZ(9px);background:#0a0f20;border:1px solid rgba(0,229,255,.3);}
-.sgl,.sgr{width:18px;height:110px;margin:-55px 0 0 -9px;background:#0d1428;border:1px solid rgba(0,229,255,.4);}
+  direction:rtl;background:linear-gradient(180deg,rgba(12,12,12,.96),rgba(6,6,6,.96));
+  border:2px solid rgba(255,45,53,.9);}
+.sgb{transform:rotateY(180deg) translateZ(9px);background:#0a0a0a;border:1px solid rgba(255,45,53,.3);}
+.sgl,.sgr{width:18px;height:110px;margin:-55px 0 0 -9px;background:#0d0d0d;border:1px solid rgba(255,45,53,.4);}
 .sgl{transform:rotateY(-90deg) translateZ(220px)}
 .sgr{transform:rotateY(90deg) translateZ(220px)}
-.sgt{width:440px;height:18px;margin:-9px 0 0 -220px;background:#0a0f20;border:1px solid rgba(0,229,255,.3);
+.sgt{width:440px;height:18px;margin:-9px 0 0 -220px;background:#0a0a0a;border:1px solid rgba(255,45,53,.3);
   transform:rotateX(90deg) translateZ(55px);}
 /* פאה תחתית זוהרת — תאורת השלט */
 .sgu{width:440px;height:18px;margin:-9px 0 0 -220px;
-  background:linear-gradient(90deg,rgba(0,229,255,.2),#c6f7ff 18% 82%,rgba(0,229,255,.2));
-  box-shadow:0 0 30px 10px rgba(0,229,255,.55);
+  background:linear-gradient(90deg,rgba(255,45,53,.25),#ff8087 18% 82%,rgba(255,45,53,.25));
+  box-shadow:0 0 26px 8px rgba(255,45,53,.55);
   transform:rotateX(-90deg) translateZ(55px);}
-.srow1{display:flex;align-items:center;gap:12px;font-weight:900;color:#e8fdff;
-  font-size:clamp(26px,7vw,40px);line-height:1.25;
-  text-shadow:0 0 10px rgba(0,229,255,.95),0 0 30px rgba(0,229,255,.55);}
-.srow1 .arw{color:var(--cy);transform:translateY(-1px);}
-.srow2{font-weight:800;color:var(--am);font-size:clamp(16px,4.2vw,24px);line-height:1.3;
-  letter-spacing:1px;text-shadow:0 0 10px rgba(255,176,32,.9),0 0 28px rgba(255,176,32,.5);}
+.srow1{display:flex;align-items:center;gap:12px;font-weight:900;color:#fff;
+  font-size:clamp(26px,7vw,40px);line-height:1.25;text-shadow:0 0 12px rgba(255,45,53,.8);}
+.srow1 .arw{color:var(--rg);transform:translateY(-1px);}
+.srow2{font-weight:800;color:var(--rg);font-size:clamp(16px,4.2vw,24px);line-height:1.3;
+  letter-spacing:1px;text-shadow:0 0 10px rgba(255,45,53,.7);}
 
-/* ---------- עמעום רדיאלי מאחורי הכרטיס ---------- */
+/* ---------- עמעום רדיאלי עדין מאחורי הכרטיס ---------- */
 .dim{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;pointer-events:none;
-  background:radial-gradient(58% 62% at 50% 54%,rgba(2,3,10,.6),rgba(2,3,10,.24) 56%,transparent 78%);}
+  background:radial-gradient(58% 62% at 50% 54%,rgba(0,0,0,.5),rgba(0,0,0,.2) 56%,transparent 78%);}
 
-/* ============ כרטיס הזכוכית ============ */
+/* ============ הכרטיס — לוח אטום, בלי טשטוש ============ */
 .cardw{position:fixed;left:0;right:0;top:calc(50% + 3.5vh);z-index:100;margin:auto;
-  width:min(400px,calc(100% - 88px));transform:translateY(-50%);
-  animation:cardIn .9s cubic-bezier(0.22,1,0.36,1) both;}
-@keyframes cardIn{from{opacity:0;transform:translateY(-46%) scale(.965)}
-  to{opacity:1;transform:translateY(-50%) scale(1)}}
+  width:min(400px,calc(100% - 88px));transform:translateY(-50%);}
 /* פינות HUD */
 .cardw::before,.cardw::after,.cardw .hudc{content:'';position:absolute;width:30px;height:30px;
   pointer-events:none;z-index:2;}
-.cardw::before{top:-7px;right:-7px;border-top:2px solid var(--cy);border-right:2px solid var(--cy);
-  border-radius:0 16px 0 0;box-shadow:3px -3px 12px rgba(0,229,255,.45);}
-.cardw::after{bottom:-7px;left:-7px;border-bottom:2px solid var(--mg);border-left:2px solid var(--mg);
-  border-radius:0 0 0 16px;box-shadow:-3px 3px 12px rgba(255,43,214,.45);}
-.cardw .hudc.h1{top:-7px;left:-7px;border-top:2px solid var(--mg);border-left:2px solid var(--mg);
-  border-radius:16px 0 0 0;box-shadow:-3px -3px 12px rgba(255,43,214,.45);}
-.cardw .hudc.h2{bottom:-7px;right:-7px;border-bottom:2px solid var(--cy);border-right:2px solid var(--cy);
-  border-radius:0 0 16px 0;box-shadow:3px 3px 12px rgba(0,229,255,.45);}
+.cardw::before{top:-7px;right:-7px;border-top:2px solid var(--rg);border-right:2px solid var(--rg);
+  border-radius:0 16px 0 0;}
+.cardw::after{bottom:-7px;left:-7px;border-bottom:2px solid var(--rg);border-left:2px solid var(--rg);
+  border-radius:0 0 0 16px;}
+.cardw .hudc.h1{top:-7px;left:-7px;border-top:2px solid var(--rg);border-left:2px solid var(--rg);
+  border-radius:16px 0 0 0;}
+.cardw .hudc.h2{bottom:-7px;right:-7px;border-bottom:2px solid var(--rg);border-right:2px solid var(--rg);
+  border-radius:0 0 16px 0;}
 
 .card{position:relative;max-height:78vh;overflow-y:auto;scrollbar-width:none;direction:rtl;
-  background:linear-gradient(160deg,rgba(10,16,34,.66) 0%,rgba(7,10,24,.6) 50%,rgba(22,8,32,.56) 100%);
-  backdrop-filter:blur(26px) saturate(160%);
-  -webkit-backdrop-filter:blur(26px) saturate(160%);
-  border:1px solid rgba(0,229,255,.28);border-radius:24px;
-  box-shadow:0 30px 80px rgba(0,0,0,.7),
-             inset 0 1px 0 rgba(160,240,255,.25),
-             inset 0 -1px 0 rgba(255,43,214,.12),
-             0 0 44px rgba(0,229,255,.10);
+  background:rgba(6,6,6,.96);
+  border:1px solid rgba(227,30,36,.6);border-radius:24px;
+  box-shadow:0 0 34px rgba(227,30,36,.3);
   padding:22px 20px 18px;text-align:center;}
 .card::-webkit-scrollbar{width:0;height:0}
-@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
-  .card{background:rgba(6,8,20,.93);}
-}
 
-.h1t{font-size:25px;font-weight:900;color:#fff;margin:2px 0 5px;line-height:1.35;
-  text-shadow:0 2px 12px rgba(0,0,0,.65),0 0 20px rgba(0,229,255,.18);}
-.h1t b{background:linear-gradient(100deg,var(--cy) 15%,var(--mg) 85%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:none;}
-.subt{font-size:14.5px;font-weight:500;color:#c9d6e8;margin:0 0 13px;line-height:1.55;
-  text-shadow:0 1px 6px rgba(0,0,0,.6);}
-.badge{display:inline-block;color:#eafdff;font-weight:800;font-size:13.5px;line-height:1.4;
+.h1t{font-size:25px;font-weight:900;color:#fff;margin:2px 0 5px;line-height:1.35;}
+.h1t b{color:var(--rg);text-shadow:0 0 14px rgba(255,45,53,.75);}
+.subt{font-size:14.5px;font-weight:500;color:#c9c9cc;margin:0 0 13px;line-height:1.55;}
+.badge{display:inline-block;color:#fff;font-weight:800;font-size:13.5px;line-height:1.4;
   padding:6px 17px;border-radius:50px;letter-spacing:.2px;
-  background:linear-gradient(135deg,rgba(0,229,255,.16),rgba(255,43,214,.16));
-  border:1px solid rgba(0,229,255,.55);
-  box-shadow:0 0 16px rgba(0,229,255,.35),inset 0 0 12px rgba(255,43,214,.14);
-  text-shadow:0 0 8px rgba(0,229,255,.6);}
+  background:linear-gradient(135deg,#e31e24 0%,#b3161b 100%);
+  border:1px solid rgba(255,255,255,.35);}
 
-/* ספירה לאחור — ספרות ניאון */
+/* ספירה לאחור — ספרות ניאון אדומות */
 .cd{display:none;direction:ltr;justify-content:center;gap:7px;margin:14px 0 2px;}
 .cd i{display:flex;flex-direction:column;align-items:center;font-style:normal;min-width:60px;
-  background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.35);border-radius:14px;
-  padding:8px 4px 6px;box-shadow:inset 0 1px 0 rgba(160,240,255,.2),0 0 12px rgba(0,229,255,.12);}
-.cd b{font-size:23px;font-weight:900;color:#8df5ff;line-height:1.3;font-variant-numeric:tabular-nums;
-  text-shadow:0 0 9px rgba(0,229,255,.95),0 0 24px rgba(0,229,255,.55);}
-.cd u{text-decoration:none;font-size:10.5px;font-weight:700;color:#9aa8c4;line-height:1.5;}
-.cddone{display:none;font-size:18px;font-weight:900;color:#8df5ff;margin:12px 0 2px;line-height:1.4;
-  text-shadow:0 0 10px rgba(0,229,255,.95),0 0 26px rgba(255,43,214,.5);}
+  background:rgba(255,45,53,.06);border:1px solid rgba(255,45,53,.4);border-radius:14px;
+  padding:8px 4px 6px;}
+.cd b{font-size:23px;font-weight:900;color:#ff4b53;line-height:1.3;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 10px rgba(255,45,53,.8);}
+.cd u{text-decoration:none;font-size:10.5px;font-weight:700;color:#9a9aa0;line-height:1.5;}
+.cddone{display:none;font-size:18px;font-weight:900;color:#ff4b53;margin:12px 0 2px;line-height:1.4;
+  text-shadow:0 0 10px rgba(255,45,53,.8);}
 
 .nhr{border:0;height:1px;margin:15px 0;
-  background:linear-gradient(90deg,transparent,rgba(0,229,255,.7) 30%,rgba(255,43,214,.7) 70%,transparent);
-  box-shadow:0 0 8px rgba(0,229,255,.5);}
+  background:linear-gradient(90deg,transparent,rgba(255,45,53,.75),transparent);}
 
 .cta{display:flex;flex-direction:column;gap:11px;text-align:right;}
 .item{display:flex;gap:12px;align-items:flex-start;padding:13px;border-radius:17px;
-  background:rgba(120,200,255,.05);border:1px solid rgba(0,229,255,.2);
-  box-shadow:inset 0 1px 0 rgba(160,240,255,.14);}
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);}
 .item .ic{flex:0 0 auto;width:40px;height:40px;border-radius:12px;font-size:21px;line-height:40px;
-  text-align:center;background:rgba(255,43,214,.12);border:1px solid rgba(255,43,214,.35);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 10px rgba(255,43,214,.2);}
-.item p{margin:0;font-size:13.5px;font-weight:500;line-height:1.55;color:#dbe4f2;
-  text-shadow:0 1px 5px rgba(0,0,0,.6);}
-.item strong{display:block;font-size:15px;font-weight:800;color:#7df3ff;margin-bottom:3px;line-height:1.4;
-  text-shadow:0 0 10px rgba(0,229,255,.6);}
+  text-align:center;background:rgba(227,30,36,.14);border:1px solid rgba(227,30,36,.4);}
+.item p{margin:0;font-size:13.5px;font-weight:500;line-height:1.55;color:#dcdce0;}
+.item strong{display:block;font-size:15px;font-weight:800;color:#ff5a60;margin-bottom:3px;line-height:1.4;}
 
 .wa{display:block;margin-top:15px;padding:14px;border-radius:19px;
   background:linear-gradient(135deg,#2ce574 0%,#1eb955 100%);color:#fff;text-decoration:none;
   font-weight:800;font-size:16px;line-height:1.4;border:1px solid rgba(255,255,255,.4);
-  box-shadow:0 12px 28px rgba(37,211,102,.38),0 0 22px rgba(37,211,102,.4);
+  box-shadow:0 10px 24px rgba(37,211,102,.35);
   text-shadow:0 1px 4px rgba(0,0,0,.25);white-space:nowrap;
   transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);}
 .wa:active{transform:scale(.97);}
@@ -472,14 +389,13 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
   .card{padding:16px 15px 14px}
   .item p{font-size:12.5px}
 }
-/* במסך צר הכרטיס מכסה את מרכז הבמה — מזיזים את הרמזורים לשוליים הגלויים */
+/* במסך צר הכרטיס מכסה את מרכז הבמה — מזיזים רמזור ושלט לשוליים הגלויים */
 @media (max-width:600px){
   .tl.near{transform:translate3d(300px,260px,-520px) rotateY(-24deg) !important}
   .tl.near .arm{transform:translate3d(-33px,-330px,0)}
   .tl.near .arf,.tl.near .arb,.tl.near .art,.tl.near .aru{width:70px;margin-left:-35px}
   .tl.near .head{transform:translate3d(-40px,-243px,0)}
-  .tl.far{transform:translate3d(-515px,260px,-1500px) rotateY(18deg) !important}
-  .bb.bb2{transform:translate3d(-540px,260px,-2300px) rotateY(24deg) !important}
+  .bb2p.bbB{transform:translate3d(-540px,260px,-2300px) rotateY(24deg) !important}
 }
 
 /* נגישות: הפחתת תנועה — כיבוי כל האנימציות */
@@ -491,77 +407,50 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 </head>
 <body>
 
-<!-- ====== שמיים: כוכבים, ירח, קו רקיע, רחפנים ====== -->
+<!-- ====== שמיים ====== -->
 <div class="sky">
   <div class="stars"></div>
   <div class="stars2"></div>
   <div class="moon"></div>
   <div class="horizonglow"></div>
   <div class="skyline"></div>
-  <div class="drone d1"><b class="trail"></b><b class="hull"></b><b class="rt r1"></b><b class="rt r2"></b><b class="lamp"></b></div>
-  <div class="drone d2"><b class="trail"></b><b class="hull"></b><b class="rt r1"></b><b class="rt r2"></b><b class="lamp"></b></div>
+  <div class="drone"><b class="trail"></b><b class="hull"></b><b class="rt r1"></b><b class="rt r2"></b><b class="lamp"></b></div>
 </div>
 
 <!-- ====== העולם התלת-ממדי ====== -->
 <div class="stage">
   <div class="world">
 
-    <!-- הקרקע: רשת זורמת + כביש -->
-    <div class="ground">
-      <div class="g-lon"></div>
-      <div class="g-lat"></div>
-      <div class="g-road">
-        <div class="rel"></div><div class="rer"></div>
-        <div class="rs rs1"></div><div class="rs rs2"></div><div class="rs rs3"></div>
-      </div>
-      <div class="g-fade"></div>
+    <!-- הקרקע: רשת זורמת + כביש, אלמנט אחד -->
+    <div class="ground"></div>
+
+    <!-- מגדלים (4) -->
+    <div class="twr" style="--w:200px;--d:200px;--h:520px;--ad:-0.4s;transform:translate3d(-430px,260px,-1000px)">
+      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
+      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
+    </div>
+    <div class="twr" style="--w:260px;--d:220px;--h:700px;--ad:-1.1s;transform:translate3d(520px,260px,-1900px)">
+      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
+      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
+    </div>
+    <div class="twr" style="--w:300px;--d:260px;--h:620px;transform:translate3d(-640px,260px,-2700px)">
+      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
+    </div>
+    <div class="twr" style="--w:320px;--d:280px;--h:860px;transform:translate3d(760px,260px,-3200px)">
+      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
     </div>
 
-    <!-- מגדלים -->
-    <div class="twr" style="--w:200px;--d:200px;--h:520px;--wc:0,229,255;--ad:-0.4s;transform:translate3d(-430px,260px,-1000px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:260px;--d:220px;--h:700px;--wc:255,176,32;--ad:-1.1s;transform:translate3d(520px,260px,-1900px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:300px;--d:260px;--h:620px;--wc:255,43,214;--ad:-1.9s;transform:translate3d(-640px,260px,-2700px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:320px;--d:280px;--h:860px;--wc:0,229,255;--ad:-0.7s;transform:translate3d(760px,260px,-3600px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:360px;--d:300px;--h:780px;--wc:255,176,32;--ad:-1.5s;transform:translate3d(-900px,260px,-4300px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:380px;--d:320px;--h:900px;--wc:0,229,255;--ad:-2.2s;transform:translate3d(980px,260px,-4800px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-    <div class="twr" style="--w:180px;--d:170px;--h:400px;--wc:255,43,214;--ad:-0.2s;transform:translate3d(620px,260px,-800px)">
-      <div class="tbox"><b class="fc tf"></b><b class="fc tb"></b><b class="fc tsl"></b><b class="fc tsr"></b><b class="fc tt"></b></div>
-      <div class="ant"><b></b><b class="a2"></b><i class="adot"></i></div>
-    </div>
-
-    <!-- שלטי חוצות -->
-    <div class="bb bb1" style="--bc:var(--amR);transform:translate3d(470px,260px,-1500px) rotateY(-26deg)">
+    <!-- שלטי חוצות (2) -->
+    <div class="bb2p bbA" style="transform:translate3d(470px,260px,-1500px) rotateY(-26deg)">
       <div class="bleg lg1"></div><div class="bleg lg2"></div>
       <div class="bpanel"><span class="big">1.8</span><span class="small">ק&#1524;מ</span></div>
     </div>
-    <div class="bb bb2" style="--bc:var(--mgR);transform:translate3d(-980px,260px,-2300px) rotateY(24deg)">
+    <div class="bb2p bbB" style="transform:translate3d(-1150px,260px,-2300px) rotateY(24deg)">
       <div class="bleg lg1"></div><div class="bleg lg2"></div>
       <div class="bpanel"><span class="big">בקרוב</span></div>
     </div>
-    <div class="bb bb3" style="--bc:var(--cyR);transform:translate3d(500px,260px,-3100px) rotateY(-20deg)">
-      <div class="bleg lg1"></div><div class="bleg lg2"></div>
-      <div class="bpanel"><span class="lt">מ</span><span class="lt">ש</span><span class="lt">ל</span><span class="lt">ו</span><span class="lt">ח</span><span class="lt">י</span><span class="lt">ם</span></div>
-    </div>
 
-    <!-- רמזור קרוב: מוטה כך שרואים שתי פאות -->
+    <!-- רמזור תלת-ממדי מלא (מוטה — רואים שתי פאות) -->
     <div class="tl near" style="transform:translate3d(462px,260px,-360px) rotateY(-24deg)">
       <div class="pole"><b class="fc met plf"></b><b class="fc met plb"></b><b class="fc met pll"></b><b class="fc met plr"></b></div>
       <div class="arm"><b class="fc met arf"></b><b class="fc met arb"></b><b class="fc met art"></b><b class="fc met aru"></b></div>
@@ -573,84 +462,41 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
         </b>
       </div>
     </div>
-    <!-- רמזור עמוק בצד הנגדי -->
-    <div class="tl mir far" style="transform:translate3d(-560px,260px,-800px) rotateY(18deg)">
-      <div class="pole"><b class="fc met plf"></b><b class="fc met plb"></b><b class="fc met pll"></b><b class="fc met plr"></b></div>
-      <div class="arm"><b class="fc met arf"></b><b class="fc met arb"></b><b class="fc met art"></b><b class="fc met aru"></b></div>
-      <div class="head">
-        <b class="fc met hb"></b><b class="fc met hsl"></b><b class="fc met hsr"></b><b class="fc met hto"></b><b class="fc met hun"></b>
-        <b class="fc hf">
-          <i class="lp lr"></i><i class="lp ly"></i><i class="lp lg"></i>
-          <i class="vz vz1"></i><i class="vz vz2"></i><i class="vz vz3"></i>
-        </b>
-      </div>
+
+    <!-- רכבים מתרחקים (3) -->
+    <div class="car go" style="--lx:60px;--dur:10s;--del:-3s">
+      <div class="cb bd"><b class="fc bf"></b><b class="fc bb"></b><b class="fc bsl"></b><b class="fc bsr"></b><b class="fc bt"></b></div>
+      <div class="cb cab"><b class="fc kf"></b><b class="fc kb"></b><b class="fc ksl"></b><b class="fc ksr"></b><b class="fc kt"></b></div>
+      <b class="wh w1"></b><b class="wh w2"></b><b class="wh w3"></b><b class="wh w4"></b>
+      <b class="lbar"></b><b class="trail"></b>
+    </div>
+    <div class="car go" style="--lx:180px;--dur:11.5s;--del:-1.5s">
+      <div class="cb bd"><b class="fc bf"></b><b class="fc bb"></b><b class="fc bsl"></b><b class="fc bsr"></b><b class="fc bt"></b></div>
+      <div class="cb cab"><b class="fc kf"></b><b class="fc kb"></b><b class="fc ksl"></b><b class="fc ksr"></b><b class="fc kt"></b></div>
+      <b class="wh w1"></b><b class="wh w2"></b><b class="wh w3"></b><b class="wh w4"></b>
+      <b class="lbar"></b><b class="trail"></b>
+    </div>
+    <div class="car go" style="--lx:180px;--dur:11.5s;--del:-7.2s">
+      <div class="cb bd"><b class="fc bf"></b><b class="fc bb"></b><b class="fc bsl"></b><b class="fc bsr"></b><b class="fc bt"></b></div>
+      <div class="cb cab"><b class="fc kf"></b><b class="fc kb"></b><b class="fc ksl"></b><b class="fc ksr"></b><b class="fc kt"></b></div>
+      <b class="wh w1"></b><b class="wh w2"></b><b class="wh w3"></b><b class="wh w4"></b>
+      <b class="lbar"></b><b class="trail"></b>
     </div>
 
-    <!-- רכבים מתרחקים -->
-    <div class="car cC go" style="--lx:60px;--dur:11.5s;--del:-0.5s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
+    <!-- רכבים מתקרבים (2) — פנסי ענבר -->
+    <div class="car come" style="--lx:-60px;--dur:10.5s;--del:-4s">
+      <div class="cb bd"><b class="fc bf"></b><b class="fc bb"></b><b class="fc bsl"></b><b class="fc bsr"></b><b class="fc bt"></b></div>
+      <div class="cb cab"><b class="fc kf"></b><b class="fc kb"></b><b class="fc ksl"></b><b class="fc ksr"></b><b class="fc kt"></b></div>
+      <b class="wh w1"></b><b class="wh w2"></b><b class="wh w3"></b><b class="wh w4"></b>
+      <b class="lbar"></b><b class="trail"></b>
+      <b class="halo"></b><b class="hlp"></b><b class="hlp hl2"></b>
     </div>
-    <div class="car cM go" style="--lx:60px;--dur:11.5s;--del:-4.3s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-    <div class="car cA go" style="--lx:60px;--dur:11.5s;--del:-8.1s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-    <div class="car cC go" style="--lx:180px;--dur:13s;--del:-2s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-    <div class="car cA go" style="--lx:180px;--dur:13s;--del:-5.2s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-    <div class="car cM go" style="--lx:180px;--dur:13s;--del:-8.5s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-    <div class="car cC go" style="--lx:180px;--dur:13s;--del:-11.7s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-    </div>
-
-    <!-- רכבים מתקרבים -->
-    <div class="car cM come" style="--lx:-60px;--dur:12s;--del:-1.6s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-      <b class="halo f"></b><b class="hlp hl1 f"></b><b class="hlp hl2 f"></b>
-    </div>
-    <div class="car cC come" style="--lx:-180px;--dur:10.5s;--del:-3.9s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-      <b class="halo f"></b><b class="hlp hl1 f"></b><b class="hlp hl2 f"></b>
-    </div>
-    <div class="car cA come" style="--lx:-60px;--dur:12s;--del:-7.6s">
-      <div class="cb bd"><b class="fc bf f"></b><b class="fc bb f"></b><b class="fc bsl f"></b><b class="fc bsr f"></b><b class="fc bt f"></b></div>
-      <div class="cb cab"><b class="fc kf f"></b><b class="fc kb f"></b><b class="fc ksl f"></b><b class="fc ksr f"></b><b class="fc kt f"></b></div>
-      <b class="wh w1 f"></b><b class="wh w2 f"></b><b class="wh w3 f"></b><b class="wh w4 f"></b>
-      <b class="lbar f"></b><b class="trail f"></b>
-      <b class="halo f"></b><b class="hlp hl1 f"></b><b class="hlp hl2 f"></b>
+    <div class="car come" style="--lx:-180px;--dur:12s;--del:-9s">
+      <div class="cb bd"><b class="fc bf"></b><b class="fc bb"></b><b class="fc bsl"></b><b class="fc bsr"></b><b class="fc bt"></b></div>
+      <div class="cb cab"><b class="fc kf"></b><b class="fc kb"></b><b class="fc ksl"></b><b class="fc ksr"></b><b class="fc kt"></b></div>
+      <b class="wh w1"></b><b class="wh w2"></b><b class="wh w3"></b><b class="wh w4"></b>
+      <b class="lbar"></b><b class="trail"></b>
+      <b class="halo"></b><b class="hlp"></b><b class="hlp hl2"></b>
     </div>
 
   </div>
@@ -659,30 +505,28 @@ html,body{margin:0;padding:0;height:100%;background:#05010f;overflow:hidden;
 <!-- ערפל אופק -->
 <div class="fog"></div>
 
-<!-- עמעום רדיאלי מאחורי הכרטיס -->
+<!-- עמעום עדין מאחורי הכרטיס -->
 <div class="dim"></div>
 
-<!-- ====== השלט העילי (במה נפרדת — תמיד מעל הכרטיס) ====== -->
+<!-- ====== השלט העילי (תמיד מעל הכרטיס) ====== -->
 <div class="signstage">
   <div class="world">
     <div class="sign">
-      <div class="sway">
-        <div class="scanopy"><b class="fc met cnf"></b><b class="fc met cnb"></b><b class="fc met cnt"></b><b class="fc met cnu"></b></div>
-        <div class="srod sr1"><b></b><b class="q2"></b></div>
-        <div class="srod sr2"><b></b><b class="q2"></b></div>
-        <div class="sboard">
-          <b class="fc sgb"></b><b class="fc sgl"></b><b class="fc sgr"></b><b class="fc sgt"></b><b class="fc sgu"></b>
-          <b class="fc sgf">
-            <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
-            <span class="srow2">1.8 ק&#1524;מ</span>
-          </b>
-        </div>
+      <div class="scanopy"><b class="fc met cnf"></b><b class="fc met cnb"></b><b class="fc met cnt"></b><b class="fc met cnu"></b></div>
+      <div class="srod sr1"><b></b><b class="q2"></b></div>
+      <div class="srod sr2"><b></b><b class="q2"></b></div>
+      <div class="sboard">
+        <b class="fc sgb"></b><b class="fc sgl"></b><b class="fc sgr"></b><b class="fc sgt"></b><b class="fc sgu"></b>
+        <b class="fc sgf">
+          <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
+          <span class="srow2">1.8 ק&#1524;מ</span>
+        </b>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ====== כרטיס הזכוכית ====== -->
+<!-- ====== הכרטיס ====== -->
 <div class="cardw">
   <span class="hudc h1"></span><span class="hudc h2"></span>
   <div class="card">
