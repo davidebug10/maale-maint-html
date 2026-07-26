@@ -21,6 +21,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@500;700;800;900&display=swap" rel="stylesheet">
 
+<script>
+/* זיהוי אנדרואיד (אפליקציה + דפדפן) לפני ציור הדף — עץ ה-3D קורס שם,
+   אז אנדרואיד מקבל סצנה דו-ממדית קלה. ראו platform-detection.md סעיף 6. */
+if (/Android/i.test(navigator.userAgent)) document.documentElement.className = "mh-android";
+</script>
+
 <style>
 /* ===================================================================
    מעלה המשלוחים — CYBER HIGHWAY v5 (מותג אדום, תקציב ביצועים קשיח)
@@ -440,10 +446,69 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   .bb2p.bbB{transform:translate3d(-540px,260px,-2300px) rotateY(24deg) !important}
 }
 
+/* ============ גרסת אנדרואיד — סצנה דו-ממדית קלה ============
+   ה-WebView וכרום באנדרואיד קורסים על עץ ה-preserve-3d, לכן באנדרואיד
+   (זיהוי /Android/i בסקריפט שב-head) מוסתרות שלוש שכבות ה-3D ומוצגת
+   סצנה שטוחה: כביש בחשיפה ארוכה עם שובלי אור, קו נתיב זורם ושלט ירוק.
+   אפס טרנספורמציות 3D, ~9 אנימציות בסך הכול. אייפון/מחשב לא מושפעים. */
+.lite{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;pointer-events:none;direction:ltr;display:none;}
+html.mh-android .stage,html.mh-android .signstage,html.mh-android .drone{display:none}
+html.mh-android .lite{display:block}
+
+/* כביש שטוח: טרפז לבן (שפות) ובתוכו טרפז אספלט — הפרש ה-clip יוצר
+   שוליים לבנים שמתכנסים לאופק בלי אף אלמנט נוסף */
+.lroad{position:absolute;left:50%;top:34vh;bottom:0;width:560px;margin-left:-280px;
+  background:rgba(255,255,255,.5);
+  clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);}
+.lroad::before{content:'';position:absolute;left:0;top:0;right:0;bottom:0;
+  background:linear-gradient(180deg,#070707,#0e0e0e);
+  clip-path:polygon(45.6% 0,54.4% 0,97.5% 100%,2.5% 100%);}
+/* קו נתיב מרכזי זורם (תחושת נסיעה) */
+.lroad::after{content:'';position:absolute;left:0;top:0;right:0;bottom:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.55) 0 26px,transparent 26px 64px);
+  clip-path:polygon(49.75% 0,50.25% 0,51.6% 100%,48.4% 100%);
+  animation:lflow .8s linear infinite;}
+@keyframes lflow{from{background-position:0 0}to{background-position:0 64px}}
+
+/* שובלי אור בחשיפה ארוכה: אדומים מתרחקים לאופק, ענבר מתקרבים */
+.lstreak{position:absolute;left:50%;top:34vh;width:8px;height:34vh;margin-left:-4px;border-radius:5px;
+  background:linear-gradient(180deg,transparent,rgba(255,45,53,.6) 30%,#ff2d35 50%,rgba(255,45,53,.6) 70%,transparent);
+  transform-origin:50% 0;opacity:0;
+  animation:lgo var(--dur,6s) linear infinite;animation-delay:var(--del,0s);}
+.lstreak.amber{background:linear-gradient(180deg,transparent,rgba(255,176,32,.55) 30%,#ffb020 50%,rgba(255,176,32,.55) 70%,transparent);
+  animation-direction:reverse;}
+@keyframes lgo{
+  0%{transform:translate3d(var(--sx),38vh,0) scale(1);opacity:0}
+  10%{opacity:1}
+  85%{opacity:.35}
+  100%{transform:translate3d(calc(var(--sx)/8),2vh,0) scale(.08);opacity:0}
+}
+
+/* שלט ירוק שטוח — אותה שפה עיצובית של השלט התלת-ממדי: סבכה, מוטות,
+   לוח ירוק עם מסגרת לבנה ותגית מרחק צהובה. נדנוד עדין אחד. */
+.lsign{position:absolute;left:50%;top:0;width:min(88vw,440px);transform:translateX(-50%);}
+.ltruss{height:22px;background-color:#131518;
+  background-image:
+    linear-gradient(180deg,#454b52 0 3px,transparent 3px 19px,#454b52 19px 22px),
+    repeating-linear-gradient(64deg,transparent 0 15px,#383e45 15px 19px,transparent 19px 34px),
+    repeating-linear-gradient(-64deg,transparent 0 15px,#2c3138 15px 19px,transparent 19px 34px);
+  border:1px solid rgba(255,255,255,.18);}
+.lswing{position:relative;transform-origin:50% 0;animation:lswy 6s ease-in-out infinite alternate;}
+@keyframes lswy{from{transform:rotate(.9deg)}to{transform:rotate(-.9deg)}}
+.lrod{position:absolute;top:0;width:8px;height:14px;
+  background:linear-gradient(180deg,#31363c,#14161a);border:1px solid rgba(255,255,255,.14);}
+.lr1{left:18%}.lr2{right:18%}
+.lboard{position:relative;margin-top:14px;padding:9px 8px 11px;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;direction:rtl;
+  background:linear-gradient(180deg,#0b6e3a,#085229);border:1px solid rgba(255,255,255,.3);}
+.lboard::before{content:'';position:absolute;left:7px;top:7px;right:7px;bottom:7px;
+  border:3px solid #fff;border-radius:8px;pointer-events:none;}
+.lboard .srow1{font-size:clamp(22px,6vw,32px);}
+
 /* נגישות: הפחתת תנועה — כיבוי כל האנימציות */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
-  .car,.drone{display:none !important}
+  .car,.drone,.lstreak{display:none !important}
 }
 </style>
 </head>
@@ -568,6 +633,26 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   </div>
 </div>
 
+<!-- ====== גרסת אנדרואיד הקלה (מוצגת רק עם html.mh-android) ====== -->
+<div class="lite">
+  <div class="lroad"></div>
+  <b class="lstreak" style="--sx:156px;--dur:5.5s;--del:-2s"></b>
+  <b class="lstreak" style="--sx:175px;--dur:6.5s;--del:-4.5s"></b>
+  <b class="lstreak" style="--sx:194px;--dur:6s;--del:-1s"></b>
+  <b class="lstreak amber" style="--sx:-165px;--dur:7s;--del:-3s"></b>
+  <b class="lstreak amber" style="--sx:-188px;--dur:7.5s;--del:-6s"></b>
+  <div class="lsign">
+    <div class="ltruss"></div>
+    <div class="lswing">
+      <b class="lrod lr1"></b><b class="lrod lr2"></b>
+      <div class="lboard">
+        <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
+        <span class="srow2"><span class="kmv">1.8</span><span class="kmu">ק&#1524;מ</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ====== הכרטיס ====== -->
 <div class="cardw">
   <span class="hudc h1"></span><span class="hudc h2"></span>
@@ -676,7 +761,8 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
     dbg.textContent = "ref=" + (ref || "(none)") +
       " | androidWv=" + androidWv +
       " | iosWv=" + iosWv +
-      " | inApp=" + inApp;
+      " | inApp=" + inApp +
+      " | liteAndroid=" + /Android/i.test(ua);
     document.body.appendChild(dbg);
   }
 })();
