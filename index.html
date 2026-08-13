@@ -365,6 +365,16 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   padding:22px 20px 18px;text-align:center;}
 .card::-webkit-scrollbar{width:0;height:0}
 
+/* רמז גלילה — עיגול עם חץ קופץ בתחתית הכרטיס. ה-JS מציג אותו רק כשתוכן
+   הכרטיס נחתך (יש מה לגלול) ומסתיר כשמגיעים לסוף. */
+.shint{display:none;position:absolute;left:50%;bottom:5px;width:34px;height:34px;margin-left:-17px;
+  z-index:3;pointer-events:none;border-radius:50%;
+  background:rgba(8,8,8,.88);border:1px solid rgba(255,45,53,.75);
+  animation:hintbob 1.5s ease-in-out infinite;}
+.shint::after{content:'';position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-7px 0 0 -5px;
+  border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg);}
+@keyframes hintbob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
 .h1t{font-size:25px;font-weight:900;color:#fff;margin:2px 0 5px;line-height:1.35;
   text-shadow:0 1px 3px rgba(0,0,0,.85);}
 .h1t b{color:var(--rg);text-shadow:0 0 14px rgba(255,45,53,.75);}
@@ -686,6 +696,7 @@ html.mh-android .lite{display:block}
 
     <a class="wa" href="https://wa.me/972555190064" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg><span>דברו איתנו בוואטסאפ</span></a>
   </div>
+  <span id="mhlHint" class="shint"></span>
 </div>
 
 <script>
@@ -752,6 +763,22 @@ html.mh-android .lite{display:block}
     var apps = document.getElementById("mhlApps");
     if (apps) apps.style.display = "block";
   }
+
+  /* רמז גלילה: מוצג רק כשתוכן הכרטיס נחתך (יש מה לגלול),
+     ונעלם כשמתקרבים לסוף. מתעדכן בגלילה, בשינוי גודל ואחרי טעינת הפונט. */
+  var cardEl = document.querySelector(".card");
+  var hint = document.getElementById("mhlHint");
+  function updHint() {
+    var need  = cardEl.scrollHeight - cardEl.clientHeight > 24;
+    var atEnd = cardEl.scrollTop + cardEl.clientHeight >= cardEl.scrollHeight - 16;
+    hint.style.display = (need && !atEnd) ? "block" : "none";
+  }
+  cardEl.addEventListener("scroll", updHint, { passive: true });
+  window.addEventListener("resize", updHint);
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+    document.fonts.ready.then(updHint);
+  }
+  updHint();
 
   /* מצב דיבאג לבדיקה מהטלפון: לפתוח את הדף עם ?debug=1 */
   if (/[?&]debug=1/.test(location.search)) {
