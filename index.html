@@ -421,7 +421,12 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 /* כפתורי הורדת אפליקציה — מוסתרים כברירת מחדל; ה-JS חושף רק בדפדפן
    (לא בתוך ה-WebView של האפליקציה). בלי box-shadow — שמירה על התקציב. */
 .apps{display:none;margin:13px 0 2px;}
-.apst{font-size:12px;font-weight:700;color:#9a9aa0;margin:0 0 8px;letter-spacing:.2px;}
+/* פס מבצע בסגנון קופון — מסגרת מקווקוות, בלי אנימציה ובלי box-shadow */
+.promo{margin:0 0 9px;padding:9px 11px;border-radius:12px;
+  background:rgba(255,45,53,.07);border:1.5px dashed rgba(255,45,53,.6);
+  font-size:12.5px;font-weight:700;color:#fff;line-height:1.6;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
+.promo b{color:#ff4b53;white-space:nowrap;}
 .aprow{display:flex;gap:9px;justify-content:center;}
 .apb{display:flex;direction:ltr;align-items:center;justify-content:center;gap:8px;flex:1;
   max-width:170px;padding:10px 8px;border-radius:14px;
@@ -676,7 +681,7 @@ html.mh-android .lite{display:block}
     <div id="mhlDone" class="cddone">ההשקה יצאה לדרך! 🎉</div>
 
     <div id="mhlApps" class="apps">
-      <p class="apst">הורידו את האפליקציה שלנו</p>
+      <p class="promo">הורידו את האפליקציה לנייד ותהנו מ<b>10% הנחה</b> למשלוח הראשון שלכם במעלה — תקף לשבוע הראשון של ההשקה!</p>
       <div class="aprow">
         <a class="apb" href="https://apps.apple.com/us/app/%D7%9E%D7%A2%D7%9C%D7%94-%D7%94%D7%9E%D7%A9%D7%9C%D7%95%D7%97%D7%99%D7%9D/id6757471366" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.4 4.8C17.07 4.83 18.89 5.08 20.06 6.77C19.95 6.84 17.62 8.22 17.65 11.06C17.68 14.42 20.56 15.52 20.6 15.53C20.57 15.61 20.14 17.04 19.12 18.5L18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg><span>App Store</span></a>
         <a class="apb" href="https://play.google.com/store/apps/details?id=com.customer.maalehamishlohim&amp;hl=he" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg><span>Google Play</span></a>
