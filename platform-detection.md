@@ -278,6 +278,39 @@ ref: ... | androidWv: true/false | iosWv: true/false | inApp: true/false
 
 ---
 
+## 9.5 הגשר הנייטיב של אפליקציית אנדרואיד (התגלה 2026-08-22)
+
+האפליקציה בנויה **React Native** ומזריקה לכל דף (כולל iframes) את
+`window.ReactNativeWebView`. הפרוטוקול חולץ מהקוד של הייפרזוד עצמם
+(`cdn-store.hyperzod.app/assets/index-*.js`):
+
+```javascript
+// פתיחת קישור בדפדפן חיצוני — כך הייפרזוד פותחים בעצמם את צ'אט התמיכה:
+window.ReactNativeWebView.postMessage(JSON.stringify({
+  postMessageType: "openNativeExternalWebview",
+  url: "https://example.com?dontAskForLocation=true&isExternalBrowser=true"
+}));
+// סוגי הודעות נוספים שנצפו בקוד שלהם:
+// "OpenUrl" (url), "requestAppToOpenShare" (dataForShare),
+// "notifyNativeStatusBarColor", "deviceTokenRequested", "openLocationSettings"
+```
+
+### ⚠️ אזהרה קריטית — קריסת אפליקציה אמיתית
+
+ה-`onMessage` של האפליקציה מריץ `JSON.parse` **בלי try/catch** על כל הודעה.
+שליחת מחרוזת שאינה JSON תקין (למשל `"whatsapp://..."` גולמי) **מקריסה את
+האפליקציה כולה** (קרה בפועל, דוח קריסה: `JSON Parse error: Unexpected
+character: w`). לשלוח אך ורק JSON בפורמט `{postMessageType: ...}` מוכר.
+
+### עוד לקחים מאותה חקירה
+
+- ה-WebView של האפליקציה לא מטפל בסכימות (`whatsapp://`, `intent://`) —
+  בכל פריים — התוצאה `ERR_UNKNOWN_URL_SCHEME`. ניווט הדף עצמו לסכימה
+  מחליף את הדף בדף שגיאה והורג את כל ה-JS (כולל מנגנוני נסיגה).
+- `target="_blank"` בתוך האפליקציה לא עושה כלום (אין תמיכה בריבוי חלונות).
+- ניווט `window.top.location` מה-iframe **מותר** (framed=true, אין sandbox).
+- דף wa.me מנסה בעצמו `whatsapp://` — לכן גם ניווט אליו בתוך ה-WebView נכשל.
+
 ## 10. כללי עבודה
 
 סיכום מהיר לשליפה:
