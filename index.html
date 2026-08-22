@@ -769,6 +769,23 @@ html.mh-android .lite{display:block}
     if (apps) apps.style.display = "block";
   }
 
+  /* בתוך אפליקציית אנדרואיד target="_blank" לא נתמך ב-WebView והקליק
+     לא עושה כלום. במקום זה פותחים את וואטסאפ בסכימה הישירה שלו;
+     אם וואטסאפ לא נפתח תוך 1.6 שניות (הדף עדיין גלוי) — נסיגה
+     לקישור wa.me רגיל באותו חלון. שאר הפלטפורמות לא מושפעות. */
+  if (inApp && /Android/i.test(ua)) {
+    var waBtn = document.querySelector(".wa");
+    if (waBtn) {
+      waBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        location.href = "whatsapp://send?phone=972555190064";
+        setTimeout(function () {
+          if (document.visibilityState === "visible") location.href = waBtn.href;
+        }, 1600);
+      });
+    }
+  }
+
   /* רמז גלילה: מוצג רק כשתוכן הכרטיס נחתך (יש מה לגלול),
      ונעלם כשמתקרבים לסוף. מתעדכן בגלילה, בשינוי גודל ואחרי טעינת הפונט. */
   var cardEl = document.querySelector(".card");
