@@ -422,6 +422,8 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   color:#fff;line-height:1.6;background:rgba(37,211,102,.1);
   border:1.5px dashed rgba(44,229,116,.65);text-shadow:0 1px 3px rgba(0,0,0,.9);}
 .wafb b{color:#2ce574;unicode-bidi:isolate;font-variant-numeric:tabular-nums;}
+.wafbtn{display:block;margin-top:7px;color:#2ce574;font-weight:800;font-size:13px;
+  text-decoration:underline;}
 .wafbdiag{margin-top:6px;font-size:9.5px;font-weight:400;color:#8a8a90;direction:ltr;
   font-family:monospace;word-break:break-all;line-height:1.4;}
 
@@ -798,6 +800,29 @@ html.mh-android .lite{display:block}
         setTimeout(function () {
           tryScheme("intent://send?phone=972555190064#Intent;scheme=whatsapp;package=com.whatsapp;end");
         }, 500);
+        /* נמצא בדיאגנוסטיקה (2026-08-22): האפליקציה מזריקה window.android
+           ו-window.ReactNativeWebView. מנסים לבקש מהאפליקציה עצמה לפתוח את
+           הקישור — הודעות לא מוכרות פשוט מתעלמים מהן, אין נזק. */
+        var waUrl = "https://wa.me/972555190064";
+        var aObj = window.android;
+        if (aObj) {
+          var fns = ["openUrl", "openLink", "openExternalUrl", "openInBrowser", "open", "share"];
+          for (var i = 0; i < fns.length; i++) {
+            if (typeof aObj[fns[i]] === "function") {
+              try { aObj[fns[i]](waUrl); } catch (e3) {}
+              break;
+            }
+          }
+        }
+        if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+          ["whatsapp://send?phone=972555190064",
+           JSON.stringify({ type: "openUrl", url: waUrl }),
+           JSON.stringify({ type: "external_url", url: waUrl }),
+           JSON.stringify({ action: "openInBrowser", url: waUrl })
+          ].forEach(function (m) {
+            try { window.ReactNativeWebView.postMessage(m); } catch (e4) {}
+          });
+        }
         setTimeout(function () {
           if (document.visibilityState !== "visible") return; /* וואטסאפ נפתח */
           if (document.getElementById("mhlWafb")) return;
@@ -833,9 +858,25 @@ html.mh-android .lite{display:block}
               } catch (e2) { return false; }
             }).slice(0, 12).join(", ");
           } catch (err) {}
+          /* ניסיון אחרון בלחיצה יזומה: סכימת whatsapp:// על הפריים הראשי —
+             ב-react-native-webview ניווט ראשי לסכימה לא-HTTP מופנה לרוב
+             למערכת ההפעלה. אם נכשל, מסך ה"נסו שוב" של הייפרזוד משחזר את הדף. */
+          var tryTop = document.createElement("a");
+          tryTop.href = "#";
+          tryTop.className = "wafbtn";
+          tryTop.textContent = "🚀 ניסיון פתיחה ישירה";
+          tryTop.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            try { window.top.location.href = "whatsapp://send?phone=972555190064"; } catch (e5) {}
+          });
+          fb.appendChild(tryTop);
+          var aFns = "";
+          try { aFns = Object.getOwnPropertyNames(window.android || {}).slice(0, 15).join(","); } catch (e6) {}
           var dl = document.createElement("div");
           dl.className = "wafbdiag";
-          dl.textContent = "diag: " + (diag || "no-bridge") + " | framed=" + (window.top !== window);
+          dl.textContent = "diag: " + (diag || "no-bridge") +
+            " | androidFns=" + (aFns || "?") +
+            " | framed=" + (window.top !== window);
           fb.appendChild(dl);
           waBtn.parentNode.appendChild(fb);
           fb.scrollIntoView({ block: "nearest" });
