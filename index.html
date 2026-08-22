@@ -789,35 +789,23 @@ html.mh-android .lite{display:block}
     if (waBtn) {
       waBtn.addEventListener("click", function (e) {
         e.preventDefault();
-        var tryScheme = function (url) {
-          var f = document.createElement("iframe");
-          f.style.display = "none";
-          f.src = url;
-          document.body.appendChild(f);
-          setTimeout(function () { if (f.parentNode) f.parentNode.removeChild(f); }, 3000);
-        };
-        tryScheme("whatsapp://send?phone=972555190064");
-        setTimeout(function () {
-          tryScheme("intent://send?phone=972555190064#Intent;scheme=whatsapp;package=com.whatsapp;end");
-        }, 500);
-        /* נמצא בדיאגנוסטיקה (2026-08-22): האפליקציה מזריקה window.android
-           ו-window.ReactNativeWebView. מנסים לבקש מהאפליקציה עצמה לפתוח את
-           הקישור — הודעות לא מוכרות פשוט מתעלמים מהן, אין נזק. */
-        var waUrl = "https://wa.me/972555190064";
-        var aObj = window.android;
-        if (aObj) {
-          var fns = ["openUrl", "openLink", "openExternalUrl", "openInBrowser", "open", "share"];
-          for (var i = 0; i < fns.length; i++) {
-            if (typeof aObj[fns[i]] === "function") {
-              try { aObj[fns[i]](waUrl); } catch (e3) {}
-              break;
-            }
-          }
+        /* הפרוטוקול האמיתי של הייפרזוד, חולץ מהקוד שלהם (cdn-store index.js,
+           2026-08-22): ReactNativeWebView.postMessage עם JSON בפורמט
+           {postMessageType:"openNativeExternalWebview", url} — והפרמטר
+           isExternalBrowser=true בתוך ה-URL גורם לפתיחה בדפדפן חיצוני
+           (כך הם פותחים בעצמם את צ'אט התמיכה). מהדפדפן החיצוני wa.me
+           פותח את וואטסאפ ישירות (App Links).
+           אזהרה קריטית: ה-onMessage שלהם מריץ JSON.parse בלי הגנה —
+           הודעה שאינה JSON תקין מקריסה את כל האפליקציה (קרה בפועל).
+           לשלוח אך ורק JSON בפורמט המדויק הזה. */
+        if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+          try {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              postMessageType: "openNativeExternalWebview",
+              url: "https://wa.me/972555190064?dontAskForLocation=true&isExternalBrowser=true"
+            }));
+          } catch (e3) {}
         }
-        /* אזהרה קריטית (קריסה אמיתית 2026-08-22): ה-onMessage של האפליקציה
-           מריץ JSON.parse בלי try/catch על כל הודעה — הודעה שאינה JSON תקין
-           (או JSON בפורמט לא צפוי) מקריסה את כל האפליקציה. אסור לשלוח
-           postMessage ל-ReactNativeWebView בלי לדעת את הפרוטוקול המדויק. */
         setTimeout(function () {
           if (document.visibilityState !== "visible") return; /* וואטסאפ נפתח */
           if (document.getElementById("mhlWafb")) return;
