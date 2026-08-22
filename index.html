@@ -422,6 +422,8 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   color:#fff;line-height:1.6;background:rgba(37,211,102,.1);
   border:1.5px dashed rgba(44,229,116,.65);text-shadow:0 1px 3px rgba(0,0,0,.9);}
 .wafb b{color:#2ce574;unicode-bidi:isolate;font-variant-numeric:tabular-nums;}
+.wafbtn{display:block;margin-top:6px;color:#2ce574;font-weight:800;font-size:13px;
+  text-decoration:underline;}
 
 /* כפתורי הורדת אפליקציה — מוסתרים כברירת מחדל; ה-JS חושף רק בדפדפן
    (לא בתוך ה-WebView של האפליקציה). בלי box-shadow — שמירה על התקציב. */
@@ -813,6 +815,18 @@ html.mh-android .lite{display:block}
           fb.id = "mhlWafb";
           fb.className = "wafb";
           fb.innerHTML = 'המספר <b dir="ltr">' + num + "</b> הועתק 📋<br>פתחו את וואטסאפ והדביקו אותו בחיפוש";
+          /* ניסיון נוסף באישור המשתמש: ניווט החלון הראשי של האפליקציה —
+             אם הייפרזוד מיירטים ניווט חיצוני בפריים הראשי, ייפתח דפדפן/וואטסאפ */
+          var tryTop = document.createElement("a");
+          tryTop.href = "#";
+          tryTop.className = "wafbtn";
+          tryTop.textContent = "או לחצו כאן לפתיחה דרך הדפדפן ↗";
+          tryTop.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            try { window.top.location.href = waBtn.href; }
+            catch (err) { tryTop.style.display = "none"; }
+          });
+          fb.appendChild(tryTop);
           waBtn.parentNode.appendChild(fb);
           fb.scrollIntoView({ block: "nearest" });
         }, 1400);
@@ -842,11 +856,20 @@ html.mh-android .lite{display:block}
     dbg.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:999;" +
       "background:#000;color:#fff;font-size:11px;line-height:1.5;padding:4px 8px;" +
       "direction:ltr;text-align:left;font-family:monospace;";
+    var bridges = "";
+    try {
+      bridges = Object.getOwnPropertyNames(window).filter(function (n) {
+        return /flutter|native|bridge|hyperzod|jsinterface|webview|^Android$|channel/i.test(n) &&
+               n !== "RTCDataChannel" && n !== "RTCDataChannelEvent" && n !== "MessageChannel" && n !== "BroadcastChannel";
+      }).slice(0, 10).join(",");
+    } catch (err) {}
     dbg.textContent = "ref=" + (ref || "(none)") +
       " | androidWv=" + androidWv +
       " | iosWv=" + iosWv +
       " | inApp=" + inApp +
-      " | liteAndroid=" + /Android/i.test(ua);
+      " | liteAndroid=" + /Android/i.test(ua) +
+      " | framed=" + (window.top !== window) +
+      " | bridges=" + (bridges || "(none)");
     document.body.appendChild(dbg);
   }
 })();
