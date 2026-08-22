@@ -424,8 +424,6 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 .wafb b{color:#2ce574;unicode-bidi:isolate;font-variant-numeric:tabular-nums;}
 .wafbtn{display:block;margin-top:7px;color:#2ce574;font-weight:800;font-size:13px;
   text-decoration:underline;}
-.wafbdiag{margin-top:6px;font-size:9.5px;font-weight:400;color:#8a8a90;direction:ltr;
-  font-family:monospace;word-break:break-all;line-height:1.4;}
 
 /* כפתורי הורדת אפליקציה — מוסתרים כברירת מחדל; ה-JS חושף רק בדפדפן
    (לא בתוך ה-WebView של האפליקציה). בלי box-shadow — שמירה על התקציב. */
@@ -823,24 +821,6 @@ html.mh-android .lite{display:block}
           fb.id = "mhlWafb";
           fb.className = "wafb";
           fb.innerHTML = 'המספר <b dir="ltr">' + num + "</b> הועתק 📋<br>פתחו את וואטסאפ והדביקו אותו בחיפוש";
-          /* שורת אבחון זעירה: מזהה "גשרים" שהאפליקציה אולי מזריקה לדף.
-             נבדק 2026-08-22: ניווט top-frame ל-wa.me עובד אבל נגמר באותו
-             ERR_UNKNOWN_URL_SCHEME (דף wa.me מנסה whatsapp:// בעצמו) —
-             לכן אין קישור "פתיחה דרך הדפדפן". גשר נייטיב הוא הסיכוי שנותר. */
-          /* מזהים שני סוגים: שמות שנשמעים כמו גשר, וכל אובייקט "פשוט" שמוזרק
-             לחלון (כך נראים אובייקטים של addJavascriptInterface / ערוצי Flutter) */
-          var diag = "";
-          try {
-            diag = Object.getOwnPropertyNames(window).filter(function (n) {
-              if (/flutter|native|bridge|hyperzod|zod|jsinterface|jsbridge|cordova|capacitor|median|gonative|^Android$/i.test(n)) return true;
-              if (n === "chrome") return false;
-              try {
-                var v = window[n];
-                return !!v && typeof v === "object" &&
-                       Object.prototype.toString.call(v) === "[object Object]";
-              } catch (e2) { return false; }
-            }).slice(0, 12).join(", ");
-          } catch (err) {}
           /* ניסיון אחרון בלחיצה יזומה: סכימת whatsapp:// על הפריים הראשי —
              ב-react-native-webview ניווט ראשי לסכימה לא-HTTP מופנה לרוב
              למערכת ההפעלה. אם נכשל, מסך ה"נסו שוב" של הייפרזוד משחזר את הדף. */
@@ -853,14 +833,6 @@ html.mh-android .lite{display:block}
             try { window.top.location.href = "whatsapp://send?phone=972555190064"; } catch (e5) {}
           });
           fb.appendChild(tryTop);
-          var aFns = "";
-          try { aFns = Object.getOwnPropertyNames(window.android || {}).slice(0, 15).join(","); } catch (e6) {}
-          var dl = document.createElement("div");
-          dl.className = "wafbdiag";
-          dl.textContent = "diag: " + (diag || "no-bridge") +
-            " | androidFns=" + (aFns || "?") +
-            " | framed=" + (window.top !== window);
-          fb.appendChild(dl);
           waBtn.parentNode.appendChild(fb);
           fb.scrollIntoView({ block: "nearest" });
         }, 1400);
