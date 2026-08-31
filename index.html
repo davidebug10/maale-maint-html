@@ -395,6 +395,9 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 .cd u{text-decoration:none;font-size:10.5px;font-weight:700;color:#9a9aa0;line-height:1.5;}
 .cddone{display:none;font-size:18px;font-weight:900;color:#ff4b53;margin:12px 0 2px;line-height:1.4;
   text-shadow:0 0 10px rgba(255,45,53,.8);}
+/* הודעת "עוד כמה שעות" — מופיעה אוטומטית ביממה האחרונה לפני ההשקה */
+.cdsoon{display:none;font-size:14px;font-weight:800;color:#ffb84d;margin:10px 0 0;line-height:1.5;
+  text-shadow:0 0 10px rgba(255,184,77,.55);}
 
 .nhr{border:0;height:1px;margin:15px 0;
   background:linear-gradient(90deg,transparent,rgba(255,45,53,.75),transparent);}
@@ -682,10 +685,11 @@ html.mh-android .lite{display:block}
   <div class="card">
     <h1 class="h1t">ב-<b>1.9</b> מעלה אדומים משנה הילוך.</h1>
     <p class="subt">להזמין כמו בתל אביב, להרגיש במעלה אדומים.</p>
-    <div class="badge">ההשקה הגדולה ב-1.9</div>
+    <div class="badge">ההשקה הגדולה ב-1.9 בשעה 17:00</div>
 
     <div id="mhlCd" class="cd"><i><b id="mhlD">-</b><u>ימים</u></i><i><b id="mhlH">-</b><u>שעות</u></i><i><b id="mhlM">-</b><u>דקות</u></i><i><b id="mhlS">-</b><u>שניות</u></i></div>
     <div id="mhlDone" class="cddone">ההשקה יצאה לדרך! 🎉</div>
+    <div id="mhlSoon" class="cdsoon">🔥 עוד כמה שעות ההשקה יוצאת לדרך — נפתחים בשעה 17:00!</div>
 
     <div id="mhlApps" class="apps">
       <p class="promo">הורידו את האפליקציה לנייד ותהנו מ<b>10% הנחה</b> למשלוח הראשון שלכם במעלה — תקף לשבוע הראשון של ההשקה!</p>
@@ -717,13 +721,16 @@ html.mh-android .lite{display:block}
 
   /* =================================================================
      תאריך ושעת ההשקה — לעריכה כאן בלבד.
-     הפורמט: שנה-חודש-יום שעה:דקה:שנייה, ואז +03:00 (שעון קיץ ישראל).
-     כרגע מכוון ל-1 בספטמבר 2026 בחצות.
+     מכוון ל-1 בספטמבר 2026 בשעה 17:00 שעון ישראל (קיץ, UTC+3),
+     כלומר 14:00 UTC. משתמשים ב-Date.UTC (חודש 8 = ספטמבר, אפס-מבוסס)
+     ולא במחרוזת ISO — פרסור מחרוזות תאריך אינו אחיד ב-WebView ישנים
+     של אייפון ואנדרואיד, ו-Date.UTC עובד זהה בכולם.
      ================================================================= */
-  var LAUNCH = new Date("2026-09-01T00:00:00+03:00").getTime();
+  var LAUNCH = Date.UTC(2026, 8, 1, 14, 0, 0);
 
   var cd   = document.getElementById("mhlCd");
   var done = document.getElementById("mhlDone");
+  var soon = document.getElementById("mhlSoon");
   var eD = document.getElementById("mhlD");
   var eH = document.getElementById("mhlH");
   var eM = document.getElementById("mhlM");
@@ -737,12 +744,14 @@ html.mh-android .lite{display:block}
 
     if (diff <= 0){
       if (cd)   cd.style.display = "none";
+      if (soon) soon.style.display = "none";
       if (done) done.style.display = "block";
       if (timer) clearInterval(timer);
       return;
     }
 
     if (cd) cd.style.display = "flex";
+    if (soon) soon.style.display = diff <= 86400000 ? "block" : "none";
 
     var s = Math.floor(diff / 1000);
     var d = Math.floor(s / 86400); s -= d * 86400;
