@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<title>מעלה המשלוחים — ההשקה הגדולה ב-1.9</title>
+<title>מעלה המשלוחים — סגור זמנית לשיפוצים</title>
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="מעלה המשלוחים — ההשקה הגדולה ב-1.9">
-<meta property="og:description" content="ב-1.9 מעלה אדומים משנה הילוך. להזמין כמו בתל אביב, להרגיש במעלה אדומים.">
+<meta property="og:title" content="מעלה המשלוחים — סגור זמנית לשיפוצים">
+<meta property="og:description" content="נפתחנו היום — ותודה רבה לכל הלקוחות! עוצרים רגע לשיפוצים ושדרוגים, וחוזרים משופרים ל-iPhone ול-Android.">
 <meta property="og:url" content="https://davidebug10.github.io/maale-maint-html/">
 <!-- החלף את השורה הבאה בכתובת של תמונת שיתוף אמיתית בגודל 1200x630 -->
 <meta property="og:image" content="REPLACE_WITH_SHARE_IMAGE_URL">
 <meta property="og:locale" content="he_IL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="מעלה המשלוחים — ההשקה הגדולה ב-1.9">
-<meta name="twitter:description" content="ב-1.9 מעלה אדומים משנה הילוך. להזמין כמו בתל אביב, להרגיש במעלה אדומים.">
+<meta name="twitter:title" content="מעלה המשלוחים — סגור זמנית לשיפוצים">
+<meta name="twitter:description" content="נפתחנו היום — ותודה רבה לכל הלקוחות! עוצרים רגע לשיפוצים ושדרוגים, וחוזרים משופרים ל-iPhone ול-Android.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -260,14 +260,14 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   background:rgba(5,5,5,.92);border:3px solid rgba(255,45,53,.85);border-radius:14px;}
 .bleg{position:absolute;left:0;top:0;width:10px;background:linear-gradient(180deg,#1e1e1e,#080808);
   border:1px solid rgba(255,255,255,.14);}
-/* שלט "1.9 ק״מ" ענק */
+/* שלט "בשיפוצים" ענק */
 .bbA .bpanel{width:520px;height:300px;margin:-150px 0 0 -260px;transform:translateY(-300px);}
 .bbA .big{font-size:120px;font-weight:900;color:var(--rg);line-height:1.05;
   text-shadow:0 0 22px rgba(255,45,53,.8);}
 .bbA .small{font-size:56px;font-weight:800;color:rgba(255,255,255,.85);letter-spacing:2px;}
 .bbA .bleg{height:160px;transform:translateY(-160px);}
 .bbA .lg1{margin-left:-190px}.bbA .lg2{margin-left:180px}
-/* שלט "בקרוב" */
+/* שלט "תודה!" */
 .bbB .bpanel{width:430px;height:230px;margin:-115px 0 0 -215px;transform:translateY(-265px);}
 .bbB .big{font-size:104px;font-weight:900;color:var(--rg);text-shadow:0 0 22px rgba(255,45,53,.8);}
 .bbB .bleg{height:150px;transform:translateY(-150px);}
@@ -385,19 +385,29 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
   background:linear-gradient(135deg,#e31e24 0%,#b3161b 100%);
   border:1px solid rgba(255,255,255,.35);}
 
-/* ספירה לאחור — ספרות ניאון אדומות */
-.cd{display:none;direction:ltr;justify-content:center;gap:7px;margin:14px 0 2px;}
-.cd i{display:flex;flex-direction:column;align-items:center;font-style:normal;min-width:60px;
-  background:rgba(255,45,53,.06);border:1px solid rgba(255,45,53,.4);border-radius:14px;
-  padding:8px 4px 6px;}
-.cd b{font-size:23px;font-weight:900;color:#ff4b53;line-height:1.3;font-variant-numeric:tabular-nums;
-  text-shadow:0 0 10px rgba(255,45,53,.8);}
-.cd u{text-decoration:none;font-size:10.5px;font-weight:700;color:#9a9aa0;line-height:1.5;}
-.cddone{display:none;font-size:18px;font-weight:900;color:#ff4b53;margin:12px 0 2px;line-height:1.4;
-  text-shadow:0 0 10px rgba(255,45,53,.8);}
-/* הודעת "עוד כמה שעות" — מופיעה אוטומטית ביממה האחרונה לפני ההשקה */
-.cdsoon{display:none;font-size:14px;font-weight:800;color:#ffb84d;margin:10px 0 0;line-height:1.5;
-  text-shadow:0 0 10px rgba(255,184,77,.55);}
+/* ---------- בלוק תודה ללקוחות — כרטיס ניאון אדום ---------- */
+.thanks{margin:14px 0 0;padding:12px 13px;border-radius:16px;text-align:right;
+  background:rgba(255,45,53,.08);border:1px solid rgba(255,45,53,.5);}
+.thanks strong{display:block;font-size:16.5px;font-weight:900;color:#ff5a60;margin-bottom:4px;line-height:1.4;
+  text-shadow:0 0 10px rgba(255,45,53,.7);}
+.thanks p{margin:0;font-size:13.5px;font-weight:500;line-height:1.6;color:#e6e6ea;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
+
+/* ---------- "מה קורה בשיפוצים" — רשימת סטטוס ---------- */
+.upd{margin:13px 0 0;text-align:right;}
+.upd h2{margin:0 0 8px;font-size:14px;font-weight:800;color:#9a9aa0;letter-spacing:.3px;}
+.upd ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+.upd li{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border-radius:13px;
+  font-size:13px;font-weight:600;line-height:1.55;color:#dcdce0;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
+.upd li .st{flex:0 0 auto;font-size:16px;line-height:1.3;}
+.upd li b{color:#fff;font-weight:800;}
+/* שורת הפלטפורמה — ה-JS ממלא לפי iPhone / Android / מחשב */
+.upd li.plat{border-color:rgba(255,184,77,.55);background:rgba(255,184,77,.07);}
+.upd li.plat b{color:#ffb84d;}
+.upd li.plat .os{display:inline-block;direction:ltr;unicode-bidi:isolate;padding:0 7px;margin:0 2px;
+  border-radius:6px;background:rgba(255,184,77,.18);color:#ffd28a;font-weight:800;}
 
 .nhr{border:0;height:1px;margin:15px 0;
   background:linear-gradient(90deg,transparent,rgba(255,45,53,.75),transparent);}
@@ -454,8 +464,6 @@ html,body{margin:0;padding:0;height:100%;background:#000;overflow:hidden;
 @media (max-width:380px){
   .cardw{width:calc(100% - 72px)}
   .card{padding:19px 15px 15px}
-  .cd i{min-width:52px}
-  .cd b{font-size:20px}
   .wa{font-size:14.5px}
 }
 @media (max-height:660px){
@@ -576,11 +584,11 @@ html.mh-android .lite{display:block}
     <!-- שלטי חוצות (2) -->
     <div class="bb2p bbA" style="transform:translate3d(470px,260px,-1500px) rotateY(-26deg)">
       <div class="bleg lg1"></div><div class="bleg lg2"></div>
-      <div class="bpanel"><span class="big">1.9</span><span class="small">ק&#1524;מ</span></div>
+      <div class="bpanel"><span class="big">&#128679;</span><span class="small">בשיפוצים</span></div>
     </div>
     <div class="bb2p bbB" style="transform:translate3d(-1150px,260px,-2300px) rotateY(24deg)">
       <div class="bleg lg1"></div><div class="bleg lg2"></div>
-      <div class="bpanel"><span class="big">בקרוב</span></div>
+      <div class="bpanel"><span class="big">תודה!</span></div>
     </div>
 
     <!-- רמזור תלת-ממדי מלא (מוטה — רואים שתי פאות) -->
@@ -652,7 +660,7 @@ html.mh-android .lite{display:block}
         <b class="fc sgb"></b><b class="fc sgl"></b><b class="fc sgr"></b><b class="fc sgt"></b><b class="fc sgu"></b>
         <b class="fc sgf">
           <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
-          <span class="srow2"><span class="kmv">1.9</span><span class="kmu">ק&#1524;מ</span></span>
+          <span class="srow2"><span class="kmv">&#128679;</span><span class="kmu">סגור זמנית לשיפוצים</span></span>
         </b>
       </div>
     </div>
@@ -673,7 +681,7 @@ html.mh-android .lite{display:block}
       <b class="lrod lr1"></b><b class="lrod lr2"></b>
       <div class="lboard">
         <span class="srow1"><span class="arw">&#8593;</span><span>מעלה אדומים</span></span>
-        <span class="srow2"><span class="kmv">1.9</span><span class="kmu">ק&#1524;מ</span></span>
+        <span class="srow2"><span class="kmv">&#128679;</span><span class="kmu">סגור זמנית לשיפוצים</span></span>
       </div>
     </div>
   </div>
@@ -683,16 +691,27 @@ html.mh-android .lite{display:block}
 <div class="cardw">
   <span class="hudc h1"></span><span class="hudc h2"></span>
   <div class="card">
-    <h1 class="h1t">ב-<b>1.9</b> מעלה אדומים משנה הילוך.</h1>
-    <p class="subt">להזמין כמו בתל אביב, להרגיש במעלה אדומים.</p>
-    <div class="badge">ההשקה הגדולה ב-1.9 בשעה 17:00</div>
+    <h1 class="h1t">נפתחנו היום — ועכשיו <b>עוצרים רגע לשיפוצים</b> &#128679;</h1>
+    <p class="subt">האפליקציה כבר עלתה לאוויר, ואנחנו סוגרים אותה זמנית כדי לשדרג, לתקן ולשפר את החוויה. חוזרים אליכם בקרוב, טובים יותר.</p>
+    <div class="badge">&#128295; סגור זמנית לשיפוצים</div>
 
-    <div id="mhlCd" class="cd"><i><b id="mhlD">-</b><u>ימים</u></i><i><b id="mhlH">-</b><u>שעות</u></i><i><b id="mhlM">-</b><u>דקות</u></i><i><b id="mhlS">-</b><u>שניות</u></i></div>
-    <div id="mhlDone" class="cddone">ההשקה יצאה לדרך! 🎉</div>
-    <div id="mhlSoon" class="cdsoon">🔥 עוד כמה שעות ההשקה יוצאת לדרך — נפתחים בשעה 17:00!</div>
+    <div class="thanks">
+      <strong>&#10084;&#65039; תודה רבה לכל הלקוחות שהזמינו היום!</strong>
+      <p>הביקוש בפתיחה היה מעל ומעבר למה שציפינו. תודה על הסבלנות, על ההזמנות ועל האמון — בזכותכם אנחנו יודעים בדיוק מה לשפר.</p>
+    </div>
+
+    <div class="upd">
+      <h2>מה קורה בשיפוצים</h2>
+      <ul>
+        <li><span class="st">&#9989;</span><span><b>הפתיחה הראשונה</b> — יצאה לדרך והתקבלו ההזמנות הראשונות במעלה אדומים.</span></li>
+        <li><span class="st">&#128296;</span><span><b>עכשיו:</b> משדרגים את האפליקציה, מתקנים תקלות ומשפרים את מהירות ההזמנה והמשלוח.</span></li>
+        <li id="mhlPlat" class="plat"><span class="st">&#128241;</span><span><b>שימו לב:</b> העדכון הקרוב שונה בין <span class="os">iPhone</span> ל-<span class="os">Android</span> — כל פלטפורמה מקבלת גרסה מותאמת משלה.</span></li>
+        <li><span class="st">&#128640;</span><span><b>בקרוב:</b> פותחים מחדש עם גרסה משופרת. נעדכן כאן ובוואטסאפ ברגע שחוזרים.</span></li>
+      </ul>
+    </div>
 
     <div id="mhlApps" class="apps">
-      <p class="promo">הורידו את האפליקציה לנייד ותהנו מ<b>10% הנחה</b> למשלוח הראשון שלכם במעלה — תקף לשבוע הראשון של ההשקה!</p>
+      <p class="promo">עוד לא הורדתם? הורידו את האפליקציה עכשיו — <b>10% הנחה</b> למשלוח הראשון שלכם במעלה נשמרת לכם גם אחרי השיפוצים!</p>
       <div class="aprow">
         <a class="apb" href="https://apps.apple.com/us/app/%D7%9E%D7%A2%D7%9C%D7%94-%D7%94%D7%9E%D7%A9%D7%9C%D7%95%D7%97%D7%99%D7%9D/id6757471366" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.4 4.8C17.07 4.83 18.89 5.08 20.06 6.77C19.95 6.84 17.62 8.22 17.65 11.06C17.68 14.42 20.56 15.52 20.6 15.53C20.57 15.61 20.14 17.04 19.12 18.5L18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg><span>App Store</span></a>
         <a class="apb" href="https://play.google.com/store/apps/details?id=com.customer.maalehamishlohim&amp;hl=he" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg><span>Google Play</span></a>
@@ -720,52 +739,28 @@ html.mh-android .lite{display:block}
   "use strict";
 
   /* =================================================================
-     תאריך ושעת ההשקה — לעריכה כאן בלבד.
-     מכוון ל-1 בספטמבר 2026 בשעה 17:00 שעון ישראל (קיץ, UTC+3),
-     כלומר 14:00 UTC. משתמשים ב-Date.UTC (חודש 8 = ספטמבר, אפס-מבוסס)
-     ולא במחרוזת ISO — פרסור מחרוזות תאריך אינו אחיד ב-WebView ישנים
-     של אייפון ואנדרואיד, ו-Date.UTC עובד זהה בכולם.
+     מצב הדף: סגור זמנית לשיפוצים (האפליקציה כבר נפתחה ב-1.9).
+     אין ספירה לאחור — במקומה שורת סטטוס שמותאמת לפלטפורמה של הגולש.
      ================================================================= */
-  var LAUNCH = Date.UTC(2026, 8, 1, 14, 0, 0);
+  var ua  = navigator.userAgent || '';
+  var ref = document.referrer || '';
+  var isIOS     = /iPhone|iPad|iPod/i.test(ua);
+  var isAndroid = /Android/i.test(ua);
 
-  var cd   = document.getElementById("mhlCd");
-  var done = document.getElementById("mhlDone");
-  var soon = document.getElementById("mhlSoon");
-  var eD = document.getElementById("mhlD");
-  var eH = document.getElementById("mhlH");
-  var eM = document.getElementById("mhlM");
-  var eS = document.getElementById("mhlS");
-  var timer;
-
-  function pad(n){ return n < 10 ? "0" + n : "" + n; }
-
-  function tick(){
-    var diff = LAUNCH - Date.now();
-
-    if (diff <= 0){
-      if (cd)   cd.style.display = "none";
-      if (soon) soon.style.display = "none";
-      if (done) done.style.display = "block";
-      if (timer) clearInterval(timer);
-      return;
+  /* שורת הפלטפורמה ברשימת השיפוצים — העדכון שונה בין iPhone ל-Android,
+     אז כל גולש רואה מה רלוונטי למכשיר שלו. במחשב מוצג הנוסח הכללי מה-HTML. */
+  var plat = document.getElementById("mhlPlat");
+  if (plat) {
+    if (isIOS) {
+      plat.innerHTML = '<span class="st">&#127822;</span><span><b>אתם ב-<span class="os">iPhone</span>:</b> ' +
+        'הגרסה המשופרת תגיע כעדכון ב-App Store. העדכון שונה מגרסת ה-<span class="os">Android</span> ' +
+        'ומותאם במיוחד לאייפון — מומלץ לעדכן ברגע שנחזור.</span>';
+    } else if (isAndroid) {
+      plat.innerHTML = '<span class="st">&#129302;</span><span><b>אתם ב-<span class="os">Android</span>:</b> ' +
+        'הגרסה המשופרת תגיע כעדכון ב-Google Play. העדכון שונה מגרסת ה-<span class="os">iPhone</span> ' +
+        'ומותאם במיוחד לאנדרואיד — מומלץ לעדכן ברגע שנחזור.</span>';
     }
-
-    if (cd) cd.style.display = "flex";
-    if (soon) soon.style.display = diff <= 86400000 ? "block" : "none";
-
-    var s = Math.floor(diff / 1000);
-    var d = Math.floor(s / 86400); s -= d * 86400;
-    var h = Math.floor(s / 3600);  s -= h * 3600;
-    var m = Math.floor(s / 60);    s -= m * 60;
-
-    if (eD) eD.textContent = d;
-    if (eH) eH.textContent = pad(h);
-    if (eM) eM.textContent = pad(m);
-    if (eS) eS.textContent = pad(s);
   }
-
-  tick();
-  timer = setInterval(tick, 1000);
 
   /* כפתורי הורדת האפליקציה — מוצגים בכל דפדפן (דסקטופ ונייד),
      מוסתרים רק בתוך אפליקציית iOS/אנדרואיד. זיהוי רב-אותות:
@@ -773,8 +768,6 @@ html.mh-android .lite{display:block}
      (document.referrer), דפדפנים דרך www.maalehamishlohim.co.il.
      אין להשתמש ב-window.webkit.messageHandlers — קיים גם
      בספארי-אייפון רגיל ומסווג דפדפן-נייד כאפליקציה בטעות. */
-  var ua  = navigator.userAgent || '';
-  var ref = document.referrer || '';
   var fromApp   = /hyperzod/i.test(ref);                                  /* ההורה הוא דומיין האפליקציה */
   var androidWv = /\bwv\b/.test(ua);                                      /* WebView אנדרואיד */
   var iosWv     = /iPhone|iPad|iPod/i.test(ua) && !/Safari\//.test(ua);   /* WKWebView חסר טוקן Safari */
@@ -882,7 +875,8 @@ html.mh-android .lite{display:block}
       " | androidWv=" + androidWv +
       " | iosWv=" + iosWv +
       " | inApp=" + inApp +
-      " | liteAndroid=" + /Android/i.test(ua) +
+      " | liteAndroid=" + isAndroid +
+      " | isIOS=" + isIOS +
       " | framed=" + (window.top !== window) +
       " | bridges=" + (bridges || "(none)");
     document.body.appendChild(dbg);
